@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.icss.dao.ViewCustomerallinfoMapper" >
+  <resultMap id="BaseResultMap" type="com.icss.bean.ViewCustomerallinfo" >
+    <result column="cid" property="cid" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="VARCHAR" />
+    <result column="tel" property="tel" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="school" property="school" jdbcType="VARCHAR" />
+    <result column="major" property="major" jdbcType="VARCHAR" />
+    <result column="education" property="education" jdbcType="VARCHAR" />
+    <result column="market" property="market" jdbcType="VARCHAR" />
+    <result column="collectiontime" property="collectiontime" jdbcType="TIMESTAMP" />
+    <result column="source" property="source" jdbcType="VARCHAR" />
+    <result column="channel" property="channel" jdbcType="VARCHAR" />
+    <result column="intentionjob" property="intentionjob" jdbcType="VARCHAR" />
+    <result column="registrant" property="registrant" jdbcType="VARCHAR" />
+    <result column="entrydate" property="entrydate" jdbcType="DATE" />
+    <result column="workexperience" property="workexperience" jdbcType="VARCHAR" />
+    <result column="birthdate" property="birthdate" jdbcType="VARCHAR" />
+    <result column="residence" property="residence" jdbcType="VARCHAR" />
+    <result column="domicile" property="domicile" jdbcType="VARCHAR" />
+    <result column="politics" property="politics" jdbcType="VARCHAR" />
+    <result column="nation" property="nation" jdbcType="VARCHAR" />
+    <result column="marriage" property="marriage" jdbcType="VARCHAR" />
+    <result column="worklife" property="worklife" jdbcType="INTEGER" />
+    <result column="workplace" property="workplace" jdbcType="VARCHAR" />
+    <result column="salary" property="salary" jdbcType="DECIMAL" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="distribution" property="distribution" jdbcType="VARCHAR" />
+    <result column="signletimr" property="signletimr" jdbcType="TIMESTAMP" />
+    <result column="follownum" property="follownum" jdbcType="INTEGER" />
+    <result column="lastfollowtime" property="lastfollowtime" jdbcType="TIMESTAMP" />
+    <result column="lastfollowup" property="lastfollowup" jdbcType="VARCHAR" />
+    <result column="nowcoursepeople" property="nowcoursepeople" jdbcType="VARCHAR" />
+    <result column="oldcoursepeople" property="oldcoursepeople" jdbcType="VARCHAR" />
+    <result column="ctypeid" property="ctypeid" jdbcType="INTEGER" />
+    <result column="ctypename" property="ctypename" jdbcType="VARCHAR" />
+    <result column="clabelid" property="clabelid" jdbcType="INTEGER" />
+    <result column="clabelname" property="clabelname" jdbcType="VARCHAR" />
+    <result column="validityid" property="validityid" jdbcType="INTEGER" />
+    <result column="validityname" property="validityname" jdbcType="VARCHAR" />
+  </resultMap>
+  <insert id="insert" parameterType="com.icss.bean.ViewCustomerallinfo" >
+    insert into view_customerallinfo (cid, name, sex, 
+      tel, email, school, 
+      major, education, market, 
+      collectiontime, source, channel, 
+      intentionjob, registrant, entrydate, 
+      workexperience, birthdate, residence, 
+      domicile, politics, nation, 
+      marriage, worklife, workplace, 
+      salary, remark, distribution, 
+      signletimr, follownum, lastfollowtime, 
+      lastfollowup, nowcoursepeople, oldcoursepeople, 
+      ctypeid, ctypename, clabelid, 
+      clabelname, validityid, validityname
+      )
+    values (#{cid,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, 
+      #{tel,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{school,jdbcType=VARCHAR}, 
+      #{major,jdbcType=VARCHAR}, #{education,jdbcType=VARCHAR}, #{market,jdbcType=VARCHAR}, 
+      #{collectiontime,jdbcType=TIMESTAMP}, #{source,jdbcType=VARCHAR}, #{channel,jdbcType=VARCHAR}, 
+      #{intentionjob,jdbcType=VARCHAR}, #{registrant,jdbcType=VARCHAR}, #{entrydate,jdbcType=DATE}, 
+      #{workexperience,jdbcType=VARCHAR}, #{birthdate,jdbcType=VARCHAR}, #{residence,jdbcType=VARCHAR}, 
+      #{domicile,jdbcType=VARCHAR}, #{politics,jdbcType=VARCHAR}, #{nation,jdbcType=VARCHAR}, 
+      #{marriage,jdbcType=VARCHAR}, #{worklife,jdbcType=INTEGER}, #{workplace,jdbcType=VARCHAR}, 
+      #{salary,jdbcType=DECIMAL}, #{remark,jdbcType=VARCHAR}, #{distribution,jdbcType=VARCHAR}, 
+      #{signletimr,jdbcType=TIMESTAMP}, #{follownum,jdbcType=INTEGER}, #{lastfollowtime,jdbcType=TIMESTAMP}, 
+      #{lastfollowup,jdbcType=VARCHAR}, #{nowcoursepeople,jdbcType=VARCHAR}, #{oldcoursepeople,jdbcType=VARCHAR}, 
+      #{ctypeid,jdbcType=INTEGER}, #{ctypename,jdbcType=VARCHAR}, #{clabelid,jdbcType=INTEGER}, 
+      #{clabelname,jdbcType=VARCHAR}, #{validityid,jdbcType=INTEGER}, #{validityname,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.icss.bean.ViewCustomerallinfo" >
+    insert into view_customerallinfo
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cid != null" >
+        cid,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="tel != null" >
+        tel,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="school != null" >
+        school,
+      </if>
+      <if test="major != null" >
+        major,
+      </if>
+      <if test="education != null" >
+        education,
+      </if>
+      <if test="market != null" >
+        market,
+      </if>
+      <if test="collectiontime != null" >
+        collectiontime,
+      </if>
+      <if test="source != null" >
+        source,
+      </if>
+      <if test="channel != null" >
+        channel,
+      </if>
+      <if test="intentionjob != null" >
+        intentionjob,
+      </if>
+      <if test="registrant != null" >
+        registrant,
+      </if>
+      <if test="entrydate != null" >
+        entrydate,
+      </if>
+      <if test="workexperience != null" >
+        workexperience,
+      </if>
+      <if test="birthdate != null" >
+        birthdate,
+      </if>
+      <if test="residence != null" >
+        residence,
+      </if>
+      <if test="domicile != null" >
+        domicile,
+      </if>
+      <if test="politics != null" >
+        politics,
+      </if>
+      <if test="nation != null" >
+        nation,
+      </if>
+      <if test="marriage != null" >
+        marriage,
+      </if>
+      <if test="worklife != null" >
+        worklife,
+      </if>
+      <if test="workplace != null" >
+        workplace,
+      </if>
+      <if test="salary != null" >
+        salary,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="distribution != null" >
+        distribution,
+      </if>
+      <if test="signletimr != null" >
+        signletimr,
+      </if>
+      <if test="follownum != null" >
+        follownum,
+      </if>
+      <if test="lastfollowtime != null" >
+        lastfollowtime,
+      </if>
+      <if test="lastfollowup != null" >
+        lastfollowup,
+      </if>
+      <if test="nowcoursepeople != null" >
+        nowcoursepeople,
+      </if>
+      <if test="oldcoursepeople != null" >
+        oldcoursepeople,
+      </if>
+      <if test="ctypeid != null" >
+        ctypeid,
+      </if>
+      <if test="ctypename != null" >
+        ctypename,
+      </if>
+      <if test="clabelid != null" >
+        clabelid,
+      </if>
+      <if test="clabelname != null" >
+        clabelname,
+      </if>
+      <if test="validityid != null" >
+        validityid,
+      </if>
+      <if test="validityname != null" >
+        validityname,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cid != null" >
+        #{cid,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null" >
+        #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="school != null" >
+        #{school,jdbcType=VARCHAR},
+      </if>
+      <if test="major != null" >
+        #{major,jdbcType=VARCHAR},
+      </if>
+      <if test="education != null" >
+        #{education,jdbcType=VARCHAR},
+      </if>
+      <if test="market != null" >
+        #{market,jdbcType=VARCHAR},
+      </if>
+      <if test="collectiontime != null" >
+        #{collectiontime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="source != null" >
+        #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="channel != null" >
+        #{channel,jdbcType=VARCHAR},
+      </if>
+      <if test="intentionjob != null" >
+        #{intentionjob,jdbcType=VARCHAR},
+      </if>
+      <if test="registrant != null" >
+        #{registrant,jdbcType=VARCHAR},
+      </if>
+      <if test="entrydate != null" >
+        #{entrydate,jdbcType=DATE},
+      </if>
+      <if test="workexperience != null" >
+        #{workexperience,jdbcType=VARCHAR},
+      </if>
+      <if test="birthdate != null" >
+        #{birthdate,jdbcType=VARCHAR},
+      </if>
+      <if test="residence != null" >
+        #{residence,jdbcType=VARCHAR},
+      </if>
+      <if test="domicile != null" >
+        #{domicile,jdbcType=VARCHAR},
+      </if>
+      <if test="politics != null" >
+        #{politics,jdbcType=VARCHAR},
+      </if>
+      <if test="nation != null" >
+        #{nation,jdbcType=VARCHAR},
+      </if>
+      <if test="marriage != null" >
+        #{marriage,jdbcType=VARCHAR},
+      </if>
+      <if test="worklife != null" >
+        #{worklife,jdbcType=INTEGER},
+      </if>
+      <if test="workplace != null" >
+        #{workplace,jdbcType=VARCHAR},
+      </if>
+      <if test="salary != null" >
+        #{salary,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="distribution != null" >
+        #{distribution,jdbcType=VARCHAR},
+      </if>
+      <if test="signletimr != null" >
+        #{signletimr,jdbcType=TIMESTAMP},
+      </if>
+      <if test="follownum != null" >
+        #{follownum,jdbcType=INTEGER},
+      </if>
+      <if test="lastfollowtime != null" >
+        #{lastfollowtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastfollowup != null" >
+        #{lastfollowup,jdbcType=VARCHAR},
+      </if>
+      <if test="nowcoursepeople != null" >
+        #{nowcoursepeople,jdbcType=VARCHAR},
+      </if>
+      <if test="oldcoursepeople != null" >
+        #{oldcoursepeople,jdbcType=VARCHAR},
+      </if>
+      <if test="ctypeid != null" >
+        #{ctypeid,jdbcType=INTEGER},
+      </if>
+      <if test="ctypename != null" >
+        #{ctypename,jdbcType=VARCHAR},
+      </if>
+      <if test="clabelid != null" >
+        #{clabelid,jdbcType=INTEGER},
+      </if>
+      <if test="clabelname != null" >
+        #{clabelname,jdbcType=VARCHAR},
+      </if>
+      <if test="validityid != null" >
+        #{validityid,jdbcType=INTEGER},
+      </if>
+      <if test="validityname != null" >
+        #{validityname,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>
