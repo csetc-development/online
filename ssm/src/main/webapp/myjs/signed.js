@@ -389,6 +389,124 @@ function pagebutton(pages){
 	})
 }
 
+function selectcustmer(){
+	var customer = $("input[name='customer']").val();
+	if(customer!=""){
+		$.ajax({
+			type:"POST",
+			url:"signed/customername.do",
+			data:{"customer":customer,"pagenum":1},
+			dataType:"json",
+			async:false,
+			success:function(data){
+				var pagecount=0;
+				var htmlcontext=""
+				for(var tmp in data){
+					var list = data[tmp].list;
+					pagecount = data[tmp].pages;
+					if(pagecount>0){
+						for(var obj in list){
+							var count  = list[obj].studyfee+list[obj].spacefee+list[obj].backfee+list[obj].depositfee;
+	    					if(list[obj].condition=="已完成"){
+	    						htmlcontext +="<tr class='success'>";
+	    					}else if(list[obj].condition=="未收款"){
+	    						htmlcontext +="<tr class='warning'>";
+	    					}else if(list[obj].condition=="已收款"){
+	    						htmlcontext +="<tr class='info'>";
+	    					}else if(list[obj].condition=="已删除"){
+	    						htmlcontext +="<tr class='danger'>";
+	    					}else{
+	    						htmlcontext +="<tr>";
+	    					}
+	    					htmlcontext +="<td><input type='checkbox' value='"+list[obj].sid+"' name='signed_checkbox'></td>"
+	    					htmlcontext +="<td>"+list[obj].sid+"</td>"
+	    					htmlcontext +="<td>"+list[obj].stime+"</td>"
+	    					htmlcontext +="<td>"+list[obj].sbusinesstype+"</td>"
+	    					htmlcontext +="<td>"+list[obj].sale+"</td>"
+	    					htmlcontext +="<td>"+list[obj].dept+"</td>"
+	    					htmlcontext +="<td>"+list[obj].scustomername+"</td>"
+	    					htmlcontext +="<td>￥"+(list[obj].studyfee).toLocaleString()+"</td>"
+	    					htmlcontext +="<td>￥"+(list[obj].spacefee).toLocaleString()+"</td>"
+	    					htmlcontext +="<td>￥"+(list[obj].backfee).toLocaleString()+"</td>"
+	    					htmlcontext +="<td>￥"+(list[obj].depositfee).toLocaleString()+"</td>"
+	    					htmlcontext +="<td>￥"+(count).toLocaleString()+"</td>"
+	    					htmlcontext +="<td>￥"+(list[obj].stateid).toLocaleString()+"</td>"
+	    					htmlcontext +="<td>"+list[obj].sarea+"</td>"
+	    					htmlcontext +="<td>"+list[obj].condition+"</td></tr>"
+						}
+					}else{
+						htmlcontext="<tr><td><font color='red'>没有找到相关数据！</font></td></tr>"
+					}
+					
+					selectcustmernext(pagecount)
+					$("#customerinfotable").find("tbody").html(htmlcontext);
+				}
+			}
+		})
+	}
+}
+
+function selectcustmernext(pagecount){
+	$("#mysign").html("");
+	$("#mysign").createPage({
+	    pageCount:pagecount,
+	    current:1,
+	    backFn:function(p){
+	    	$.ajax({
+				type:"POST",
+				url:"signed/customername.do",
+				data:{"customer":customer,"pagenum":p},
+				dataType:"json",
+				async:false,
+				success:function(data){
+					var pagecount=0;
+					var htmlcontext=""
+					for(var tmp in data){
+						var list = data[tmp].list;
+						pagecount = data[tmp].pages;
+						if(pagecount>0){
+							for(var obj in list){
+								var count  = list[obj].studyfee+list[obj].spacefee+list[obj].backfee+list[obj].depositfee;
+		    					if(list[obj].condition=="已完成"){
+		    						htmlcontext +="<tr class='success'>";
+		    					}else if(list[obj].condition=="未收款"){
+		    						htmlcontext +="<tr class='warning'>";
+		    					}else if(list[obj].condition=="已收款"){
+		    						htmlcontext +="<tr class='info'>";
+		    					}else if(list[obj].condition=="已删除"){
+		    						htmlcontext +="<tr class='danger'>";
+		    					}else{
+		    						htmlcontext +="<tr>";
+		    					}
+		    					htmlcontext +="<td><input type='checkbox' value='"+list[obj].sid+"' name='signed_checkbox'></td>"
+		    					htmlcontext +="<td>"+list[obj].sid+"</td>"
+		    					htmlcontext +="<td>"+list[obj].stime+"</td>"
+		    					htmlcontext +="<td>"+list[obj].sbusinesstype+"</td>"
+		    					htmlcontext +="<td>"+list[obj].sale+"</td>"
+		    					htmlcontext +="<td>"+list[obj].dept+"</td>"
+		    					htmlcontext +="<td>"+list[obj].scustomername+"</td>"
+		    					htmlcontext +="<td>￥"+(list[obj].studyfee).toLocaleString()+"</td>"
+		    					htmlcontext +="<td>￥"+(list[obj].spacefee).toLocaleString()+"</td>"
+		    					htmlcontext +="<td>￥"+(list[obj].backfee).toLocaleString()+"</td>"
+		    					htmlcontext +="<td>￥"+(list[obj].depositfee).toLocaleString()+"</td>"
+		    					htmlcontext +="<td>￥"+(count).toLocaleString()+"</td>"
+		    					htmlcontext +="<td>￥"+(list[obj].stateid).toLocaleString()+"</td>"
+		    					htmlcontext +="<td>"+list[obj].sarea+"</td>"
+		    					htmlcontext +="<td>"+list[obj].condition+"</td></tr>"
+							}
+						}else{
+							htmlcontext="<tr><td><font color='red'>没有找到相关数据！</font></td></tr>"
+						}
+						$("#customerinfotable").find("tbody").html(htmlcontext);
+					}
+				}
+			});
+	    	
+	    }
+	})
+}
+
+
 function tips(){
 	alert("确定要修改签单信息吗？申请过退款或者返款的签单不能修改签单的金额哦！");
 }

@@ -629,6 +629,11 @@ public class SignedController {
 		return jsonArray.toString();
 	}
 	
+	
+	@RequestMapping("customername.do")
+	public @ResponseBody String customername(HttpServletRequest request ,HttpSession session){
+		return JSONArray.fromObject(signedBusiness.signedinfoIsMinebycustomername(request, session)).toString();
+	}
 	/********************************************************************************************************/
 	
 	

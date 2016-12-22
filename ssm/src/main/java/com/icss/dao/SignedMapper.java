@@ -23,6 +23,8 @@ public interface SignedMapper {
     
     PageBean<Signed> signedinfoIsMine(String sale,int pagenum);
     
+    PageBean<Signed> signedinfoIsMinebycustomername(Signed signed ,int pagenum);
+    
     PageBean<Signed> pending(int stateid,int pagenum);
     
     Signed onesignedinfo(int sid);

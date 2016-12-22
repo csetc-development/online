@@ -143,7 +143,6 @@ public class SignedBusiness {
 		Signed s;
 		try{
 			s = signedDao.checkcustomernames(signed.getScustomername());
-			System.out.println(s+"萨卡很大的回答");
 			if(s!=null){
 				int count =0;
 				if(signed.getBackfee()==s.getBackfee()){
@@ -209,6 +208,14 @@ public class SignedBusiness {
 		return (signedDao.signedinfoIsMine(sale, pagenum)).getList();
 	}
 	
+	
+	public PageBean<Signed> signedinfoIsMinebycustomername(HttpServletRequest request,HttpSession session){
+		int pagenum = Integer.parseInt(request.getParameter("pagenum"));
+		Signed s = new Signed();
+		s.setSale( ((User)session.getAttribute("tempuser")).getUsername());
+		s.setScustomername(request.getParameter("customer"));
+		return signedDao.signedinfoIsMinebycustomername(s, pagenum);
+	}
 	/**
 	 * @param stateid
 	 * @return 根据状态查询签单相关信息

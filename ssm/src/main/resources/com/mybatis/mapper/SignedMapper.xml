@@ -357,6 +357,19 @@
 	 ORDER BY a,stime DESC
   </select>
   
+  <!-- 按照客户姓名查找自己的签单信息 -->
+   <select id="signedinfoIsMinebycustomername" resultMap="SignedMap" parameterType="com.icss.bean.Signed">
+   <bind name="scustomernames" value="'%'+ scustomername +'%'"/>
+  	 SELECT si.sid, stime, sbusinesstype, scustomername, scustomerschool, scustomercollege, scustomermajor, 
+	    scustomercardid, scustomerbankcardid, scustomergrade, speoplenum, studyfee, spacefee, 
+	    backfee, depositfee, sale, dept, sarea, sremark, ifnull(a,0) stateid,st.`condition`,bank
+	 FROM signed si
+	 INNER JOIN `status` st ON si.stateid = st.stateid
+	 LEFT JOIN (SELECT sid ,SUM(amount) a FROM iaer GROUP BY sid) i ON i.sid = si.sid
+	 WHERE sale=#{sale,jdbcType=VARCHAR} and scustomername like #{scustomernames,jdbcType=VARCHAR}
+	 ORDER BY a,stime DESC
+  </select>
+  
   <!-- 查询所有待收款,待返款,待退款的签单  -->
   <select id="pending" resultMap="SignedMap" parameterType="java.lang.Integer">
   	SELECT si.sid, stime, sbusinesstype, scustomername, scustomerschool, scustomercollege, scustomermajor, 
