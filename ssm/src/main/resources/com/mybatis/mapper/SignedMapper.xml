@@ -374,7 +374,7 @@
    
    <!-- 查看签单信息中是否有这个人（检查人名） -->
    <select id="checkcustomernames" resultType="com.icss.bean.Signed" parameterType="java.lang.String">
-   	select <include refid="Base_Column_List" /> from signed where scustomername=#{_parameter,jdbcType=VARCHAR}
+   	select <include refid="Base_Column_List" /> from signed where scustomername=#{_parameter,jdbcType=VARCHAR} and stateid &lt;&gt; 12
    </select>
    
   <!-- 按照客户姓名模糊查询相关数据  -->

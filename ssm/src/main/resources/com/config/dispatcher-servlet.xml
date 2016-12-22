@@ -26,8 +26,10 @@
 		<mvc:view-controller path="/" view-name="redirect:/login" />
 
 		<!-- 把标记了@Controller注解转成bean -->
-		<context:component-scan base-package="com.icss.conroller"></context:component-scan>
-		
+	<context:component-scan base-package="com.icss.conroller"></context:component-scan>
+	
+	
+				
 		<!-- 启动SpringMVC的注解功能，完成请求和注解POJO的映射  -->
 		<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" />
 		

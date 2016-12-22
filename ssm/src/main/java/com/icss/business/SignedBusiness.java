@@ -143,6 +143,7 @@ public class SignedBusiness {
 		Signed s;
 		try{
 			s = signedDao.checkcustomernames(signed.getScustomername());
+			System.out.println(s+"萨卡很大的回答");
 			if(s!=null){
 				int count =0;
 				if(signed.getBackfee()==s.getBackfee()){
