@@ -44,12 +44,23 @@
 </head>
 
 <body>
-
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-sm-12">
 				<div class="container" style="height:20px;"></div>
-				<table
+				<form id="uploadcustomer" action="customer/importcustomer.do" enctype="multipart/form-data" method="post">
+					<table class="table table-striped table-hover table-responsive table-bordered">
+					<tr>
+						<th colspan="2">客服资源导入</th>
+					</tr>
+					<tr>
+						<td><input id="mFile" type="file" class="file" name="mFile"></td>
+						<td><button class="btn btn-primary" onclick="upload()">上传</button></td>
+					</tr>
+				</table>
+				</form>
+				
+				<%-- <table
 					class="table table-striped table-hover table-responsive table-bordered" id="customerinfotable">
 					<thead>
 						<tr>
@@ -137,31 +148,11 @@
 							class="tcdPageCode sign col-xs-12 col-sm-6 col-md-8 col-lg-6 col-sm-offset-3 col-md-offset-2 col-lg-offset-3">
 						</div>
 					</div>
-				</div>
+				</div> --%>
 			</div>
 		</div>
 </div>
-	<div class="modal" id="importTemplates">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"
-						aria-hidden="true">&times;</button>
-					<h4 class="modal-title">导入签单信息</h4>
-				</div>
-				<form action="signed/readExcel.do" enctype="multipart/form-data"
-					method="post">
-					<div class="modal-body">
-						<input id="mFile" type="file" class="file" name="mFile">
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-						<button type="submit" class="btn btn-primary">导入</button>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
+
 
 	
 	<!-- Bootstrap core JavaScript  ================================================== -->
@@ -172,6 +163,21 @@
 	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 	<script src="<%=basePath%>js/ie10-viewport-bug-workaround.js"></script>
 	<script src="<%=basePath%>js/page.js"></script>
+	<script type="text/javascript">
+	 function upload(){
+	 	var form = new FormData($("#uploadcustomer"));
+	 	$.ajax({
+	 		type:"POST",
+	 		url:"customer/importcustomer.do",
+	 		data:form,
+	 		async:false,
+	 		success:function(data){
+	 		
+	 		}
+	 	});
+	 	get();
+	 }
+	</script>
 </body>
 </html>
 	

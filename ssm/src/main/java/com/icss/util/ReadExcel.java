@@ -2,12 +2,15 @@ package com.icss.util;
 
 import java.io.File;
 import java.io.FileInputStream;
-
 import java.io.InputStream;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFDataFormat;
@@ -213,7 +216,7 @@ public class ReadExcel {
 	 * @return 导入客户简历信息
 	 * @throws Exception
 	 */
-	public List<Customerinfo> ReadCoustomerExcel(String path) throws Exception{
+	public List<Customerinfo> ReadCoustomerExcel(String path,HttpSession session) throws Exception{
 		Customerinfo cus=null;
 		List<Customerinfo> list = new ArrayList<Customerinfo>();
 		File excelFile = new File(path);
@@ -245,20 +248,26 @@ public class ReadExcel {
 	            		cus.setSource(getValue(hssfRow.getCell(7)));
 	            		cus.setChannel(getValue(hssfRow.getCell(8)));           		
 	            		cus.setIntentionjob(getValue(hssfRow.getCell(9)));
-	            		cus.setWorkexperience(getValue(hssfRow.getCell(10)));
+	            		cus.setEducation(getValue(hssfRow.getCell(10)));
+	            		cus.setWorkexperience(getValue(hssfRow.getCell(11)));
 	            		
-	            		cus.setBirthdate(getValue(hssfRow.getCell(12)));
-	            		cus.setResidence(getValue(hssfRow.getCell(13)));
-	            		cus.setDomicile(getValue(hssfRow.getCell(14)));
-	            		cus.setPolitics(getValue(hssfRow.getCell(15)));
-	            		cus.setNation(getValue(hssfRow.getCell(16)));
-	            		cus.setMarriage(getValue(hssfRow.getCell(17)));
-	            		cus.setWorkplace(getValue(hssfRow.getCell(18)));
+	            		cus.setBirthdate(getValue(hssfRow.getCell(13)));
+	            		cus.setResidence(getValue(hssfRow.getCell(14)));
+	            		cus.setDomicile(getValue(hssfRow.getCell(15)));
+	            		cus.setPolitics(getValue(hssfRow.getCell(16)));
+	            		cus.setNation(getValue(hssfRow.getCell(17)));
+	            		cus.setMarriage(getValue(hssfRow.getCell(18)));
+	            		cus.setWorkplace(getValue(hssfRow.getCell(19)));
 	            		
-	            		cus.setRemark(getValue(hssfRow.getCell(20)));
+	            		cus.setRemark(getValue(hssfRow.getCell(21)));
+	            		String people = ((User)session.getAttribute("tempuser")).getUsername();
+	            		cus.setRegistrant(people);
+	            		cus.setNowcoursepeople(people);
+	            		Date date=new Date();
+	            		cus.setEntrydate(date);//登记时间
 	            		try {
-	            			cus.setWorklife(Integer.parseInt(getValue(hssfRow.getCell(11)).trim()));
-	            			cus.setSalary(Integer.parseInt(getValue(hssfRow.getCell(19)).trim()));
+	            			cus.setWorklife(Integer.parseInt(getValue(hssfRow.getCell(12)).trim()));
+	            			cus.setSalary(Integer.parseInt(getValue(hssfRow.getCell(20)).trim()));
 						} catch (Exception e) {
 							System.out.println(e);
 						}           		
@@ -294,20 +303,27 @@ public class ReadExcel {
 		            		cus.setSource(getValue(hssfRow.getCell(7)));
 		            		cus.setChannel(getValue(hssfRow.getCell(8)));           		
 		            		cus.setIntentionjob(getValue(hssfRow.getCell(9)));
-		            		cus.setWorkexperience(getValue(hssfRow.getCell(10)));
+		            		cus.setEducation(getValue(hssfRow.getCell(10)));
+		            		cus.setWorkexperience(getValue(hssfRow.getCell(11)));
 		            		
-		            		cus.setBirthdate(getValue(hssfRow.getCell(12)));
-		            		cus.setResidence(getValue(hssfRow.getCell(13)));
-		            		cus.setDomicile(getValue(hssfRow.getCell(14)));
-		            		cus.setPolitics(getValue(hssfRow.getCell(15)));
-		            		cus.setNation(getValue(hssfRow.getCell(16)));
-		            		cus.setMarriage(getValue(hssfRow.getCell(17)));
-		            		cus.setWorkplace(getValue(hssfRow.getCell(18)));
+		            		cus.setBirthdate(getValue(hssfRow.getCell(13)));
+		            		cus.setResidence(getValue(hssfRow.getCell(14)));
+		            		cus.setDomicile(getValue(hssfRow.getCell(15)));
+		            		cus.setPolitics(getValue(hssfRow.getCell(16)));
+		            		cus.setNation(getValue(hssfRow.getCell(17)));
+		            		cus.setMarriage(getValue(hssfRow.getCell(18)));
+		            		cus.setWorkplace(getValue(hssfRow.getCell(19)));
 		            		
-		            		cus.setRemark(getValue(hssfRow.getCell(20)));
+		            		cus.setRemark(getValue(hssfRow.getCell(21)));
+		            		String people = ((User)session.getAttribute("tempuser")).getUsername();
+		            		cus.setRegistrant(people);
+		            		cus.setNowcoursepeople(people);
+		            		
+		            		Date date=new Date();
+		            		cus.setEntrydate(date);//登记时间
 		            		try {
-		            			cus.setWorklife(Integer.parseInt(getValue(hssfRow.getCell(11)).trim()));
-		            			cus.setSalary(Integer.parseInt(getValue(hssfRow.getCell(19)).trim()));
+		            			cus.setWorklife(Integer.parseInt(getValue(hssfRow.getCell(12)).trim()));
+		            			cus.setSalary(Integer.parseInt(getValue(hssfRow.getCell(20)).trim()));
 							} catch (Exception e) {
 								System.out.println(e);
 							}           		
