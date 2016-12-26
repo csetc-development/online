@@ -1,0 +1,20 @@
+$(document).ready(function(){
+	$("table").bootstrapTable("hideColumn", "workexperience");
+	$("table").bootstrapTable("hideColumn", "birthdate");
+	$("table").bootstrapTable("hideColumn", "residence");
+	$("table").bootstrapTable("hideColumn", "domicile");
+	$("table").bootstrapTable("hideColumn", "politics");
+	$("table").bootstrapTable("hideColumn", "nation");
+	$("table").bootstrapTable("hideColumn", "marriage");
+	$("table").bootstrapTable("hideColumn", "worklife");
+	$("table").bootstrapTable("hideColumn", "workplace");
+	$("table").bootstrapTable("hideColumn", "salary");
+	$("table").bootstrapTable("hideColumn", "remark");
+	$("table").bootstrapTable("hideColumn", "distribution");
+	$("table").bootstrapTable("hideColumn", "signletimr");
+	$("table").bootstrapTable("hideColumn", "collectiontime");
+	$("table").bootstrapTable("hideColumn", "follownum");
+	$("table").bootstrapTable("hideColumn", "lastfollowtime");
+	$("table").bootstrapTable("hideColumn", "lastfollowup");
+	$("table").bootstrapTable("hideColumn", "oldcoursepeople");
+});

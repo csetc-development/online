@@ -42,6 +42,7 @@
 	    <tx:annotation-driven transaction-manager="txManager" />  
 	      
 	    <bean id="userService" class="com.icss.business.SignedBusiness" />  
+	    <bean id="cusService" class="com.icss.business.CustomerinfoBusiness" />  
 		
 		
 		<!-- 视图解析器beans -->

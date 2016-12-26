@@ -1,5 +1,7 @@
 package com.icss.dao;
 
+import java.util.List;
+
 import com.icss.bean.Customerinfo;
 
 public interface CustomerinfoMapper {
@@ -14,4 +16,6 @@ public interface CustomerinfoMapper {
     int updateByPrimaryKeySelective(Customerinfo record);
 
     int updateByPrimaryKey(Customerinfo record);
+    
+    List<Customerinfo> allresume();
 }

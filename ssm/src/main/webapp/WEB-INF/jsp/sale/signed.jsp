@@ -110,25 +110,25 @@ ul{
 										<input type="text" size="5" placeholder="客户姓名" name="customer">
 										<button onclick="selectcustmer()" class="btn btn-default btn-xs" type="button" style="margin-left: 2px; line-height: 1.2;font-size: 13px;margin-bottom: 3px; margin-right:15px; padding: 2px 5px;">查询</button>
 										<div class="btn-group"> 
-										<button id="btn_add" type="button" class="btn btn-xs btn-danger"  data-toggle="modal" data-target="#importTemplates">
-											<span class="glyphicon glyphicon-arrow-down" aria-hidden="true">导入</span>
-										</button>
-										<button id="btn_add" type="button" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#addonesign">
-											<span class="glyphicon glyphicon-plus" aria-hidden="true">新增</span>
-										</button>
-										<button id="btn_delete" type="button"
-											class="btn btn-xs btn-warning" onclick="delectsigninfo()">
-											<span class="glyphicon glyphicon-remove" aria-hidden="true">删除</span>
-										</button>
-										<button id="btn_add" type="button"
-											class="btn btn-xs btn-danger" onclick="BackModel()">
-											<span class="glyphicon glyphicon-arrow-up" aria-hidden="true">返款</span>
-										</button>
-										<button id="btn_add" type="button"
-											class="btn btn-xs  btn-success" onclick="ExitModel()">
-											<span class="glyphicon glyphicon-arrow-up" aria-hidden="true">退款</span>
-										</button>
-									</div>
+											<button id="btn_add" type="button" class="btn btn-xs btn-danger"  data-toggle="modal" data-target="#importTemplates">
+												<span class="glyphicon glyphicon-arrow-down" aria-hidden="true">导入</span>
+											</button>
+											<button id="btn_add" type="button" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#addonesign">
+												<span class="glyphicon glyphicon-plus" aria-hidden="true">新增</span>
+											</button>
+											<button id="btn_delete" type="button"
+												class="btn btn-xs btn-warning" onclick="delectsigninfo()">
+												<span class="glyphicon glyphicon-remove" aria-hidden="true">删除</span>
+											</button>
+											<button id="btn_add" type="button"
+												class="btn btn-xs btn-danger" onclick="BackModel()">
+												<span class="glyphicon glyphicon-arrow-up" aria-hidden="true">返款</span>
+											</button>
+											<button id="btn_add" type="button"
+												class="btn btn-xs  btn-success" onclick="ExitModel()">
+												<span class="glyphicon glyphicon-arrow-up" aria-hidden="true">退款</span>
+											</button>
+										</div>
 									</div>
 								</div>
 							</td>

@@ -3,12 +3,16 @@ package com.icss.conroller;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JsonConfig;
 
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
@@ -20,6 +24,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.icss.bean.Customerinfo;
 import com.icss.business.CustomerinfoBusiness;
+import com.icss.util.JsonDateValueProcessor;
 import com.icss.util.ReadExcel;
 
 @Controller
@@ -32,11 +37,24 @@ public class CustomerinfoController {
 		this.customerinfoBusiness = customerinfoBusiness;
 	}
 	
+	/**
+	 * 进行页面跳转
+	 * @return
+	 */
 	@RequestMapping("skipimport.do")
 	public String skipimport(){
 		return "sale/customer";
 	}
 	
+	/**
+	 * 导入简历信息
+	 * @param mFile
+	 * @param request
+	 * @param session
+	 * @param response
+	 * @return
+	 * @throws IOException
+	 */
 	@SuppressWarnings("finally")
 	@RequestMapping(value="importcustomer.do",produces = "text/plain;charset=UTF-8")
 	public @ResponseBody String importcustomer(@RequestParam(value="mFile") MultipartFile mFile,HttpServletRequest request,HttpSession session,HttpServletResponse response) throws IOException{
@@ -74,10 +92,32 @@ public class CustomerinfoController {
     		reslut="导入失败，电话号码不对"+dke.getCause();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			reslut="导入失败！";
+			reslut="导入失败！电话号码格式不对！"+e.getCause();
+			e.printStackTrace();
 		}finally{
 			return reslut;
 		}
 		
+	}
+	
+	/**
+	 * 所有的客户简历信息
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("distribution.do")
+	public String distribution(){
+		return "sale/consultation";
+	}
+	/**
+	 * 所有的客户简历信息
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("allcustomerinfo.do")
+	public @ResponseBody String allcustomerinfo(HttpServletRequest request){
+		JsonConfig jsonConfig = new JsonConfig();
+		jsonConfig.registerJsonValueProcessor(Date.class,new JsonDateValueProcessor("yyyy-MM-dd"));
+		return JSONArray.fromObject(customerinfoBusiness.allresume(),jsonConfig).toString();
 	}
 }

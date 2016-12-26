@@ -1,5 +1,7 @@
 package com.icss.impl;
 
+import java.util.List;
+
 import com.icss.bean.Customerinfo;
 import com.icss.dao.CustomerinfoMapper;
 import com.icss.util.BasicSqlSupport;
@@ -40,6 +42,12 @@ public class CustomerinfoMapperImpl extends BasicSqlSupport implements Customeri
 	public int updateByPrimaryKey(Customerinfo record) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public List<Customerinfo> allresume() {
+		// TODO Auto-generated method stub
+		return this.session.selectList("com.icss.dao.CustomerinfoMapper.allresume");
 	}
 
 }

@@ -84,6 +84,7 @@
       #{lastfollowup,jdbcType=VARCHAR}, #{nowcoursepeople,jdbcType=VARCHAR}, #{oldcoursepeople,jdbcType=VARCHAR}
       )
   </insert>
+  <!-- 新增数据   -->
   <insert id="insertSelective" parameterType="com.icss.bean.Customerinfo" >
   	<!-- 查看是否存在tel,如果存在及更新，否则插入 -->  
   	<selectKey keyProperty="cid" resultType="int" order="BEFORE">    
@@ -423,6 +424,12 @@
 	    </trim>
 	   </if>
   </insert>
+  
+  <!-- 查看所有客户简历信息  -->
+  <select id="allresume" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+  	SELECT <include refid="Base_Column_List" /> FROM customerinfo ORDER BY entrydate DESC ,signletimr 
+  </select>
+  
   <update id="updateByPrimaryKeySelective" parameterType="com.icss.bean.Customerinfo" >
     update customerinfo
     <set >
