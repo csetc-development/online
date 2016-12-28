@@ -1,13 +1,11 @@
 package com.icss.util;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
 import org.apache.shiro.subject.Subject;
-import org.apache.shiro.util.CollectionUtils;
 import org.apache.shiro.web.filter.authz.AuthorizationFilter;
 
 public class OrPermsAuthorizationFilter extends AuthorizationFilter{

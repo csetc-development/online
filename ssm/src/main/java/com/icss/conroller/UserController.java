@@ -4,13 +4,14 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import net.sf.json.JSONArray;
+
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
-import org.hibernate.validator.util.GetAnnotationParameter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -168,7 +169,15 @@ public class UserController {
     	session.setAttribute("menu", menuBusiness.rootdirectory());
 		return "public/index";
     }
-
-
+    
+    /**
+     * 获得所有负责人名字
+     * @return
+     */
+    @RequestMapping("getunderstake.do")
+    public @ResponseBody String getunderstake(){
+    	return JSONArray.fromObject(userBusiness.getunderstake()).toString();
+    }
+    
     
 }

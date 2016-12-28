@@ -6,13 +6,11 @@ package com.icss.impl;
 
 import java.util.List;
 
-import com.github.pagehelper.PageHelper;
 import com.icss.bean.Permission;
 import com.icss.bean.Role;
 import com.icss.bean.User;
 import com.icss.dao.UserMapper;
 import com.icss.util.BasicSqlSupport;
-import com.icss.util.PageBean;
 
 public class UserMapperImpl extends BasicSqlSupport implements UserMapper{
 
@@ -58,6 +56,12 @@ public class UserMapperImpl extends BasicSqlSupport implements UserMapper{
 	public int getuidByeid(int eid) {
 		// TODO Auto-generated method stub
 		return this.session.selectOne("com.icss.dao.UserMapper.getuidByeid", eid);
+	}
+
+	@Override
+	public List<User> getunderstake() {
+		// TODO Auto-generated method stub
+		return this.session.selectList("com.icss.dao.UserMapper.getunderstake");
 	}
 	
 	

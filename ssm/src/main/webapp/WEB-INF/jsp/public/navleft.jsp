@@ -32,7 +32,7 @@
 <body>
 	<div class="container-fluid">
 		<div class="row"> 
-			<div class="col-md-2 sidebar" style="padding: 0px;">
+			<div class="col-md-1 col-sm-1 sidebar" style="padding: 0px;">
 				<ul id="main-nav" class="main-nav nav nav-stacked" style="padding-left: 10px;">
 					<c:forEach items="${menu }" var="m">
 						<c:if test="${!m.havanextlevel}">

@@ -241,13 +241,13 @@ function updatacustomerinfo(){
 
 function ck(){
     var tbodyObj = document.getElementById('tbodyID');
-        $("table :checkbox").each(function(key,value){
-            if($(value).prop('checked')){
-                alert(tbodyObj.rows[key].cells[1].innerHTML); 
-                alert(tbodyObj.rows[key].cells[2].innerHTML); 
-            }
-        })
-    }
+    $("table :checkbox").each(function(key,value){
+        if($(value).prop('checked')){
+            alert(tbodyObj.rows[key].cells[1].innerHTML); 
+            alert(tbodyObj.rows[key].cells[2].innerHTML); 
+        }
+    })
+}
 function delectsigninfo(){
 	var cuscheckbox = $("input[name='signed_checkbox']:checkbox:checked");
 	if(cuscheckbox.length>0){

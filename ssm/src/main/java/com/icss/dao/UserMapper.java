@@ -9,7 +9,6 @@ import java.util.List;
 import com.icss.bean.Permission;
 import com.icss.bean.Role;
 import com.icss.bean.User;
-import com.icss.util.PageBean;
 
 public interface UserMapper {
 
@@ -27,7 +26,7 @@ public interface UserMapper {
 	
 	int getuidByeid(int eid);
 	
-	
+	List<User> getunderstake();
 	
 
 }

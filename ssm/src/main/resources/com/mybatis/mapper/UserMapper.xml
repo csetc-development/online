@@ -170,4 +170,9 @@
     from users u
     where eid =  #{eid,jdbcType=INTEGER}
   </select> -->
+  
+  <!-- 获得负责人名字根据权限 -->
+  <select id="getunderstake" resultMap="BaseResultMap">
+  	SELECT distinct username FROM userrole ur INNER JOIN users u ON ur.eid = u.eid 
+  </select>
 </mapper>

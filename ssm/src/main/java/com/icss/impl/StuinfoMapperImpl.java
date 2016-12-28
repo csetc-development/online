@@ -3,7 +3,6 @@ package com.icss.impl;
 import java.util.List;
 
 import com.github.pagehelper.PageHelper;
-import com.icss.bean.Signed;
 import com.icss.bean.Stuinfo;
 import com.icss.dao.StuinfoMapper;
 import com.icss.util.BasicSqlSupport;
@@ -39,7 +38,7 @@ public class StuinfoMapperImpl extends BasicSqlSupport implements StuinfoMapper{
 	@Override
 	public int updateByPrimaryKeySelective(Stuinfo record) {
 		// TODO Auto-generated method stub
-		return 0;
+		return this.session.update("com.icss.dao.StuinfoMapper.updateByPrimaryKeySelective", record);
 	}
 
 	@Override

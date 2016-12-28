@@ -1,0 +1,24 @@
+table{
+	font-size: 12px;
+	text-align: center;
+	table-layout:fixed;
+	word-break:break-all;
+	word-wrap:break-word;
+	border-collapse:collapse;
+	margin:0;
+	padding:0;
+}
+select {
+   /*很关键：将默认的select选择框样式清除-*/
+   appearance:none;  
+   -moz-appearance:none;  
+   -webkit-appearance:none;  
+   color:#9d9d9d;
+   font-size: 12px;
+   border: 1px solid #B1D2EC;
+   height: 22px;
+   padding-right:22px;
+   background: url("../images/select-cion.png") no-repeat right #fff;
+}
+/*清除ie的默认选择框样式清除，隐藏下拉箭头*/
+selsect:: -ms-expand { display: none; }

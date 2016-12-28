@@ -7,7 +7,6 @@ import org.apache.shiro.crypto.hash.Md5Hash;
 
 import com.icss.bean.Permission;
 import com.icss.bean.Role;
-import com.icss.bean.Signed;
 import com.icss.bean.User;
 import com.icss.dao.UserMapper;
 
@@ -104,5 +103,13 @@ public class UserBusiness {
 		String salt = "zhongruanguojietc";
 	    return new Md5Hash(str,salt).toString() ;
 	 }
+    
+    /**
+     * 取得所有负责人
+     * @return
+     */
+    public List<User> getunderstake(){
+    	return userDao.getunderstake();
+    }
    
 }

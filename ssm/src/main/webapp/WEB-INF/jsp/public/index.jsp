@@ -40,7 +40,7 @@
 <body>
 	<jsp:include page="navheader.jsp"></jsp:include> 
 	<jsp:include page="navleft.jsp"></jsp:include> 
-	<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2" style="height: 900px; padding-right: 0px;">
+	<div class="col-sm-11 col-sm-offset-1 col-md-11 col-md-offset-1" style="height: 900px; padding-right: 0px;">
 		<iframe name="con" src="<%=basePath %>signed/content.do" scrolling="auto" frameborder="0" style="width: 100%;height: 100%;"></iframe>
 	</div>
 	<%@ include file="footer.jsp"%>

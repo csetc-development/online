@@ -7,7 +7,6 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedHashMap;
 
-import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFCell;

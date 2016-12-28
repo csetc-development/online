@@ -39,6 +39,10 @@
     <result column="nowcoursepeople" property="nowcoursepeople" jdbcType="VARCHAR" />
     <result column="oldcoursepeople" property="oldcoursepeople" jdbcType="VARCHAR" />
   </resultMap>
+  <resultMap type="com.icss.bean.Customertype" id="CtypeMap">
+  	<id column="ctypeid" property="ctypeid" jdbcType="INTEGER"/>
+  	<result column="ctypename" property="ctypename" jdbcType="VARCHAR"/>
+  </resultMap>
   <sql id="Base_Column_List" >
     cid, name, sex, tel, email, school, major, education, market, collectiontime, source, 
     channel, intentionjob, registrant, entrydate, workexperience, birthdate, residence, 
@@ -430,6 +434,14 @@
   	SELECT <include refid="Base_Column_List" /> FROM customerinfo ORDER BY entrydate DESC ,signletimr 
   </select>
   
+  <!-- 分配客户给课程顾问 -->
+  <update id="distributionInfo" parameterType="com.icss.bean.Customerinfo">
+  	UPDATE customerinfo SET 
+  		distribution=#{distribution,jdbcType=VARCHAR},signletimr=#{signletimr,jdbcType=TIMESTAMP}, 
+  		oldcoursepeople=nowcoursepeople,nowcoursepeople=#{nowcoursepeople,jdbcType=VARCHAR}
+  	 WHERE cid=#{cid,jdbcType=INTEGER}
+  </update>
+  
   <update id="updateByPrimaryKeySelective" parameterType="com.icss.bean.Customerinfo" >
     update customerinfo
     <set >
@@ -580,4 +592,66 @@
       oldcoursepeople = #{oldcoursepeople,jdbcType=VARCHAR}
     where cid = #{cid,jdbcType=INTEGER}
   </update>
+  
+  <!-- 查看所有课程顾问列表 -->
+  <select id="nowcoursepeopleselect" resultMap="CtypeMap">
+  	SELECT eid ctypeid, username ctypename from users
+  </select>
+  <!-- 查看所有来源渠道列表 -->
+  <select id="sourceselect" resultMap="CtypeMap">
+  	SELECT DISTINCT source ctypename from customerinfo
+  </select>
+  <!-- 查看所有渠道明细列表 -->
+  <select id="channelselect" resultMap="CtypeMap">
+  	SELECT DISTINCT channel ctypename from customerinfo
+  </select>
+  <!-- 查看所有意向课程列表 -->
+  <select id="intentionjobselect" resultMap="CtypeMap">
+  	SELECT DISTINCT intentionjob ctypename from customerinfo
+  </select>
+  <!-- 查看客户类型列表 -->
+  <select id="customertypeselect" resultMap="CtypeMap">
+  	SELECT ctypeid,ctypename FROM customertype
+  </select>
+  <!-- 查看客户有效性列表 -->
+  <select id="validityselect" resultMap="CtypeMap">
+  	SELECT validityid ctypeid, validityname ctypename FROM validity
+  </select>
+  <!-- 查看客户标签列表 -->
+  <select id="customerlabelselect" resultMap="CtypeMap">
+  	SELECT clabelid ctypeid,clabelname ctypename FROM customerlabel
+  </select>
+  
+  <!-- 多条件查询简历信息 -->
+  <select id="Screen" resultMap="BaseResultMap" parameterType="com.icss.bean.Customerinfo">
+  	SELECT  <include refid="Base_Column_List" /> FROM customerinfo WHERE 1=1
+      <if test="source != null and source != ''">
+        and source = #{source,jdbcType=VARCHAR}
+      </if>
+      <if test="channel != null and channel !=''" >
+        and channel = #{channel,jdbcType=VARCHAR}
+      </if>
+      <if test="intentionjob != null  and intentionjob !=''" >
+        and intentionjob = #{intentionjob,jdbcType=VARCHAR}
+      </if>
+      <if test="entrydate != null and signletimr != null" >
+        and entrydate between #{entrydate,jdbcType=DATE} and  #{signletimr,jdbcType=TIMESTAMP}
+      </if>
+      <if test="validityid != null  and validityid !=''" >
+        and validityid = #{validityid,jdbcType=INTEGER}
+      </if>
+      <if test="ctypeid != null  and ctypeid !=''" >
+        and ctypeid = #{ctypeid,jdbcType=INTEGER}
+      </if>
+      <if test="nowcoursepeople != null and nowcoursepeople !=''" >
+        and nowcoursepeople = #{nowcoursepeople,jdbcType=VARCHAR}
+      </if>
+      <if test="clabelid != null and clabelid !=''" >
+        and clabelid = #{clabelid,jdbcType=INTEGER}
+      </if>
+      <if test="remark != null and remark !=''" >
+       ORDER BY #{remark,jdbcType=VARCHAR} DESC
+      </if>
+  </select>
+  
 </mapper>

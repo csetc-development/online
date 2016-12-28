@@ -3,6 +3,8 @@ package com.icss.conroller;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
@@ -16,6 +18,8 @@ import net.sf.json.JsonConfig;
 
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -101,7 +105,7 @@ public class CustomerinfoController {
 	}
 	
 	/**
-	 * 所有的客户简历信息
+	 * 跳转到客户信息页面
 	 * @param request
 	 * @return
 	 */
@@ -119,5 +123,39 @@ public class CustomerinfoController {
 		JsonConfig jsonConfig = new JsonConfig();
 		jsonConfig.registerJsonValueProcessor(Date.class,new JsonDateValueProcessor("yyyy-MM-dd"));
 		return JSONArray.fromObject(customerinfoBusiness.allresume(),jsonConfig).toString();
+	}
+	
+	/**
+	 * 资源分配
+	 * @param request
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value="allot.do",produces = "text/plain;charset=UTF-8")
+	public @ResponseBody String allot(HttpServletRequest request,HttpSession session){
+		return customerinfoBusiness.allot(request, session);
+	}
+	
+	/**
+	 * 获得下拉框数据
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("selectdata.do")
+	public @ResponseBody String selectdata(HttpServletRequest request){
+		return JSONArray.fromObject(customerinfoBusiness.selectdata(request)).toString();
+	}
+	
+	/**
+	 * 条件筛选
+	 * @return
+	 * @throws ParseException 
+	 * @throws UnsupportedEncodingException 
+	 */
+	@RequestMapping(value="Screen.do",produces = "text/plain;charset=UTF-8")
+	public @ResponseBody String Screen(@ModelAttribute("customer") Customerinfo customer,HttpServletRequest request) throws ParseException{
+		JsonConfig jsonConfig = new JsonConfig();
+		jsonConfig.registerJsonValueProcessor(Date.class,new JsonDateValueProcessor("yyyy-MM-dd"));
+		return JSONArray.fromObject(customerinfoBusiness.Screen(customer,request),jsonConfig).toString();
 	}
 }

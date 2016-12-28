@@ -3,13 +3,11 @@ package com.icss.util;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
@@ -265,6 +263,7 @@ public class ReadExcel {
 	            		cus.setNowcoursepeople(people);
 	            		Date date=new Date();
 	            		cus.setEntrydate(date);//登记时间
+	            		cus.setCollectiontime(date);//采集时间
 	            		try {
 	            			cus.setWorklife(Integer.parseInt(getValue(hssfRow.getCell(12)).trim()));
 	            			cus.setSalary(Integer.parseInt(getValue(hssfRow.getCell(20)).trim()));
@@ -321,6 +320,7 @@ public class ReadExcel {
 		            		
 		            		Date date=new Date();
 		            		cus.setEntrydate(date);//登记时间
+		            		cus.setCollectiontime(date);//采集时间
 		            		try {
 		            			cus.setWorklife(Integer.parseInt(getValue(hssfRow.getCell(12)).trim()));
 		            			cus.setSalary(Integer.parseInt(getValue(hssfRow.getCell(20)).trim()));

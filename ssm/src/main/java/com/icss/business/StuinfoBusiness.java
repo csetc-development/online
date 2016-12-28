@@ -5,11 +5,9 @@ import com.icss.util.PageBean;
 
 import java.util.List;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.apache.tools.ant.types.CommandlineJava.SysProperties;
 
 import com.icss.bean.Stuinfo;
 
