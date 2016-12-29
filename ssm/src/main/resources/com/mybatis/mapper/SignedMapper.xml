@@ -559,7 +559,7 @@
 		(SELECT sid,SUM(amount) amount FROM iaer GROUP BY sid) i 
 		ON s.sid = i.sid WHERE stime BETWEEN #{stime,jdbcType=VARCHAR} AND #{sremark,jdbcType=VARCHAR}
 		AND dept = (SELECT d_name FROM view_empallinfo where ename=#{sale,jdbcType=VARCHAR}) AND s.stateid &lt;=10
-		and studyfee>0
+		and studyfee&gt;0
 	GROUP BY sale ORDER BY studyfee DESC
   </select>
   
@@ -568,10 +568,10 @@
 	  SELECT eid stateid,COUNT(i.sid) backfee FROM signed s 
 	LEFT JOIN empinfo e ON e.ename = s.sale
 	LEFT JOIN
-		(SELECT sid, sum(amount)a,max(time) time FROM iaer GROUP BY sid) i ON i.sid = s.sid
+		(SELECT sid, sum(amount)a,max(time) time FROM iaer WHERE type='收入' GROUP BY sid) i ON i.sid = s.sid
 	 WHERE i.time BETWEEN #{stime,jdbcType=VARCHAR} AND #{sremark,jdbcType=VARCHAR}
 	 AND dept=(SELECT d_name FROM view_empallinfo where ename=#{sale,jdbcType=VARCHAR})  AND stateid &lt;=10 
-	 AND (studyfee+depositfee) &lt;=a and studyfee>0
+	 AND (studyfee+depositfee) &lt;=a and studyfee&gt;0
 	GROUP BY sale 
   </select>
    <!-- 查看自己部门每个销售的收款的钱数 -->
@@ -599,7 +599,7 @@
   	FROM signed s LEFT JOIN empinfo e on e.ename=s.sale LEFT JOIN 
 		(SELECT sid,SUM(amount) amount FROM iaer GROUP BY sid) i 
 		ON s.sid = i.sid WHERE stime BETWEEN #{stime,jdbcType=VARCHAR} AND #{sremark,jdbcType=VARCHAR}
-		AND dept = #{sale,jdbcType=VARCHAR} AND s.stateid &lt;=10 and studyfee>0
+		AND dept = #{sale,jdbcType=VARCHAR} AND s.stateid &lt;=10 and studyfee&gt;0
 	GROUP BY sale ORDER BY studyfee DESC
   </select>
   <!-- 查看指定部门中已交完的签单数-->
@@ -610,7 +610,7 @@
 		(SELECT sid, sum(amount)a,max(time) time FROM iaer GROUP BY sid) i ON i.sid = s.sid
 	 WHERE i.time BETWEEN #{stime,jdbcType=VARCHAR} AND #{sremark,jdbcType=VARCHAR}
 	 AND dept= #{sale,jdbcType=VARCHAR}  AND stateid &lt;=10 
-	 AND (studyfee+depositfee) &lt;=a and studyfee>0
+	 AND (studyfee+depositfee) &lt;=a and studyfee&gt;0
 	GROUP BY sale 
   </select>
   <!-- 查看指定部门中已交钱数-->
@@ -618,7 +618,7 @@
   	 SELECT eid stateid,sum(a) depositfee FROM signed s 
 	LEFT JOIN empinfo e ON e.ename = s.sale
 	LEFT JOIN
-		(SELECT sid, sum(amount)a,max(time) time FROM iaer GROUP BY sid) i ON i.sid = s.sid
+		(SELECT sid, sum(amount)a,max(time) time FROM iaer WHERE type='收入' GROUP BY sid) i ON i.sid = s.sid
 	 WHERE i.time BETWEEN #{stime,jdbcType=VARCHAR} AND #{sremark,jdbcType=VARCHAR}
 	 AND dept= #{sale,jdbcType=VARCHAR}  AND stateid &lt;=10 
 	GROUP BY sale 
@@ -879,18 +879,18 @@
   <!-- 查看某人某规定时间的签单和收款详情 -->
   <select id="onesalesigns" resultMap="BaseResultMap" parameterType="com.icss.bean.Signed">
   	SELECT s.sid,stime,scustomername,studyfee,spacefee,backfee,depositfee,sale, sksj sremark,a bank FROM signed s INNER JOIN (
-		SELECT sid, MAX(time) sksj,sum(amount) a FROM iaer GROUP BY sid ) i 
-		ON s.sid = i.sid WHERE sksj BETWEEN #{stime,jdbcType=VARCHAR} and #{sremark,jdbcType=VARCHAR} AND sale like #{sale,jdbcType=VARCHAR} AND a &gt;=studyfee+depositfee
+		SELECT sid, MAX(time) sksj,sum(amount) a FROM iaer WHERE type='收入' GROUP BY sid ) i 
+		ON s.sid = i.sid WHERE stateid&lt;=10 and sksj BETWEEN #{stime,jdbcType=VARCHAR} and #{sremark,jdbcType=VARCHAR} AND sale like #{sale,jdbcType=VARCHAR} AND a &gt;=studyfee+depositfee
 		UNION(
 		SELECT s.sid,stime,scustomername,studyfee,spacefee,backfee,depositfee,sale,sksj,a FROM signed s LEFT JOIN (
-		SELECT sid, MAX(time) sksj,sum(amount) a FROM iaer GROUP BY sid ) i 
-		ON s.sid = i.sid WHERE stime BETWEEN #{stime,jdbcType=VARCHAR} and #{sremark,jdbcType=VARCHAR} AND sale like #{sale,jdbcType=VARCHAR})
+		SELECT sid, MAX(time) sksj,sum(amount) a FROM iaer WHERE type='收入' GROUP BY sid ) i 
+		ON s.sid = i.sid WHERE stateid&lt;=10 and stime BETWEEN #{stime,jdbcType=VARCHAR} and #{sremark,jdbcType=VARCHAR} AND sale like #{sale,jdbcType=VARCHAR})
   </select>
   
   <!-- 查看某人在某时间段内的收款详情 -->
   <select id="onesalesignsP" resultMap="BaseResultMap" parameterType="com.icss.bean.Signed">
   	SELECT s.sid,stime,scustomername,studyfee,spacefee,backfee,depositfee,sale, sksj sremark,a bank FROM signed s INNER JOIN (
-		SELECT sid, MAX(time) sksj,sum(amount) a FROM iaer GROUP BY sid ) i 
+		SELECT sid, MAX(time) sksj,sum(amount) a FROM iaer WHERE type='收入' GROUP BY sid ) i 
 		ON s.sid = i.sid WHERE sksj BETWEEN #{stime,jdbcType=VARCHAR} and #{sremark,jdbcType=VARCHAR} AND sale like #{sale,jdbcType=VARCHAR} AND a &gt;=studyfee+depositfee
   </select>
   
@@ -972,7 +972,7 @@
 	ON s.sid = i.sid
 	where s.stime   
 	BETWEEN #{stime,jdbcType=VARCHAR}
-	and  #{sremark,jdbcType=VARCHAR} AND s.stateid &lt;=10 and s.studyfee>0
+	and  #{sremark,jdbcType=VARCHAR} AND s.stateid &lt;=10 and s.studyfee&gt;0
 	GROUP BY dept 
 </select>
 
@@ -985,14 +985,14 @@
 	WHERE i.time   
 		BETWEEN #{stime,jdbcType=VARCHAR}
 		and  #{sremark,jdbcType=VARCHAR} AND s.stateid &lt;=10
-		AND (studyfee+depositfee) &lt;=a and studyfee>0
+		AND (studyfee+depositfee) &lt;=a and studyfee&gt;0
 		GROUP BY dept
 </select>
 <!-- 查看所有部门指定时间的收款钱数 -->
 <select id="deptConllmoney" resultMap="BaseResultMap" parameterType="com.icss.bean.Signed">
 	SELECT did stateid,sum(a) depositfee FROM signed s
 	INNER JOIN empinfo e ON e.ename = s.sale INNER JOIN (
-	SELECT sid,SUM(amount) a,max(time) time FROM iaer GROUP BY sid)i
+	SELECT sid,SUM(amount) a,max(time) time FROM iaer WHERE type='收入' GROUP BY sid)i
 	ON s.sid = i.sid
 	WHERE i.time   
 		BETWEEN #{stime,jdbcType=VARCHAR}

@@ -25,9 +25,9 @@ $(document).ready(function(){
 	    alert(arg1);
 	    alert(arg2);
 	});*/
-	/*$("#distributiontable").onDblClickRow(function(row){
+	$("#distributiontable click-cell.bs.table").onClickCell(function(row){
 		alert(row);
-	})*/
+	})
 });
 
 

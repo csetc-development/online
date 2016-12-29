@@ -158,4 +158,6 @@ public class CustomerinfoController {
 		jsonConfig.registerJsonValueProcessor(Date.class,new JsonDateValueProcessor("yyyy-MM-dd"));
 		return JSONArray.fromObject(customerinfoBusiness.Screen(customer,request),jsonConfig).toString();
 	}
+	
+	
 }
