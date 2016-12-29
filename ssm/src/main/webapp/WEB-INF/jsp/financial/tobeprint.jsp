@@ -106,7 +106,7 @@
       <div class="modal-body" id="printArea" align="center">
       	<table class="table" id="ptable" style="width: 200mm;">
 	  		<thead>
-	  			<tr style="height: 70px;"><th colspan="4" style="font-size: 24px;text-align:center;vertical-align:middle; font-weight: bold;">退 费 单</th></tr>
+	  			<tr style="height: 70px;"><th colspan="4" style="font-size: 24px; text-align:center; vertical-align:middle;">退 费 单</th></tr>
 	  		</thead>
 	  		<tbody>
 	  			<tr >

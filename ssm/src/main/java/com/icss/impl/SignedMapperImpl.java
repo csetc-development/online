@@ -14,6 +14,19 @@ public class SignedMapperImpl extends BasicSqlSupport implements SignedMapper{
 
 	static final Integer PAGESIZE = 15;
 	
+	private List<Signed> checkdata(List<Signed> list1,List<Signed> list2){
+		for(int i=0;i<list1.size();i++){
+			Signed tmp = list1.get(i);
+			 for(int j=0;j<list2.size();j++){
+				 Signed tmp2 = list2.get(j);
+				 if(tmp.getStateid()==tmp2.getStateid()){
+					 tmp.setDepositfee(tmp2.getDepositfee());
+					 list1.set(i, tmp);
+				 }
+			 }
+		}
+		return list1;
+	}
 	@Override
 	public int deleteByPrimaryKey(Integer sid) {
 		// TODO Auto-generated method stub
@@ -151,9 +164,11 @@ public class SignedMapperImpl extends BasicSqlSupport implements SignedMapper{
 	}
 
 	@Override
-	public List<Signed> salecontribute(Signed s) {
+	public List<Signed> salecontribute(Signed s) { 
 		// TODO Auto-generated method stub
-		return this.session.selectList("com.icss.dao.SignedMapper.salecontribute",s);
+		List<Signed> list1 = this.session.selectList("com.icss.dao.SignedMapper.salecontribute",s);
+		List<Signed> list2 = this.session.selectList("com.icss.dao.SignedMapper.collectionmoney",s);
+		return checkdata(list1, list2);
 	}
 	
 	@Override
@@ -296,7 +311,9 @@ public class SignedMapperImpl extends BasicSqlSupport implements SignedMapper{
 	@Override
 	public List<Signed> DepyCollections(Signed signed) {
 		// TODO Auto-generated method stub
-		return this.session.selectList("com.icss.dao.SignedMapper.DepyCollections",signed);
+		List<Signed> list1 = this.session.selectList("com.icss.dao.SignedMapper.DepyCollections",signed);
+		List<Signed> list2= this.session.selectList("com.icss.dao.SignedMapper.deptConllmoney", signed);
+		return checkdata(list1,list2);
 	}
 
 	@Override
@@ -322,7 +339,9 @@ public class SignedMapperImpl extends BasicSqlSupport implements SignedMapper{
 	@Override
 	public List<Signed> deptempiaer(Signed signed) {
 		// TODO Auto-generated method stub
-		return this.session.selectList("com.icss.dao.SignedMapper.deptempiaer",signed);
+		List<Signed> list1 = this.session.selectList("com.icss.dao.SignedMapper.deptempiaer",signed);
+		List<Signed> list2 = this.session.selectList("com.icss.dao.SignedMapper.deptcollmoney", signed);
+		return checkdata(list1, list2);
 	}
 
 	@Override
@@ -407,6 +426,7 @@ public class SignedMapperImpl extends BasicSqlSupport implements SignedMapper{
 	public List<Signed> deptConllnum(Signed signed) {
 		// TODO Auto-generated method stub
 		return this.session.selectList("com.icss.dao.SignedMapper.deptConllnum", signed);
+		
 	}
 
 	@Override
@@ -496,6 +516,7 @@ public class SignedMapperImpl extends BasicSqlSupport implements SignedMapper{
 		List<Signed> list = this.session.selectList("com.icss.dao.SignedMapper.signedinfoIsMinebycustomername", signed);
  		return new PageBean<Signed>(list);
 	}
+
 
 	
 }

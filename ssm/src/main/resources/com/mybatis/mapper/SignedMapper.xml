@@ -554,12 +554,12 @@
   
    <!-- 查看自己部门每个销售的签单、收款金额和签单人数 -->
   <select id="salecontribute" resultMap="BaseResultMap" parameterType="com.icss.bean.Signed">
-  	SELECT eid stateid, sale,SUM(studyfee+spacefee+backfee+depositfee) studyfee, ifnull(SUM(amount),0) depositfee 
-  		,COUNT(s.sid) speoplenum
+  	SELECT eid stateid, sale,SUM(studyfee+spacefee+backfee+depositfee) studyfee ,COUNT(s.sid) speoplenum
   	FROM signed s LEFT JOIN empinfo e on e.ename=s.sale LEFT JOIN 
 		(SELECT sid,SUM(amount) amount FROM iaer GROUP BY sid) i 
 		ON s.sid = i.sid WHERE stime BETWEEN #{stime,jdbcType=VARCHAR} AND #{sremark,jdbcType=VARCHAR}
 		AND dept = (SELECT d_name FROM view_empallinfo where ename=#{sale,jdbcType=VARCHAR}) AND s.stateid &lt;=10
+		and studyfee>0
 	GROUP BY sale ORDER BY studyfee DESC
   </select>
   
@@ -568,10 +568,20 @@
 	  SELECT eid stateid,COUNT(i.sid) backfee FROM signed s 
 	LEFT JOIN empinfo e ON e.ename = s.sale
 	LEFT JOIN
-		(SELECT sid, sum(amount)a FROM iaer GROUP BY sid) i ON i.sid = s.sid
-	 WHERE stime BETWEEN #{stime,jdbcType=VARCHAR} AND #{sremark,jdbcType=VARCHAR}
+		(SELECT sid, sum(amount)a,max(time) time FROM iaer GROUP BY sid) i ON i.sid = s.sid
+	 WHERE i.time BETWEEN #{stime,jdbcType=VARCHAR} AND #{sremark,jdbcType=VARCHAR}
 	 AND dept=(SELECT d_name FROM view_empallinfo where ename=#{sale,jdbcType=VARCHAR})  AND stateid &lt;=10 
-	 AND (studyfee+spacefee+depositfee) &lt;=a
+	 AND (studyfee+depositfee) &lt;=a and studyfee>0
+	GROUP BY sale 
+  </select>
+   <!-- 查看自己部门每个销售的收款的钱数 -->
+  <select id="collectionmoney" resultMap="BaseResultMap" parameterType="com.icss.bean.Signed">
+	  SELECT eid stateid,sum(a) depositfee FROM signed s 
+	LEFT JOIN empinfo e ON e.ename = s.sale
+	LEFT JOIN
+		(SELECT sid, sum(amount)a,max(time) time FROM iaer GROUP BY sid) i ON i.sid = s.sid
+	 WHERE i.time BETWEEN #{stime,jdbcType=VARCHAR} AND #{sremark,jdbcType=VARCHAR}
+	 AND dept=(SELECT d_name FROM view_empallinfo where ename=#{sale,jdbcType=VARCHAR})  AND stateid &lt;=10 
 	GROUP BY sale 
   </select>
   
@@ -585,11 +595,11 @@
   
     <!-- 查看指定部门中人员的签单和收款 -->
   <select id="deptempiaer"  resultMap="BaseResultMap" parameterType="com.icss.bean.Signed">
-  	SELECT eid stateid, sale,SUM(studyfee+spacefee+backfee+depositfee) studyfee, ifnull(SUM(amount),0) depositfee ,COUNT(s.sid) speoplenum
+  	SELECT eid stateid, sale,SUM(studyfee+spacefee+backfee+depositfee) studyfee, COUNT(s.sid) speoplenum
   	FROM signed s LEFT JOIN empinfo e on e.ename=s.sale LEFT JOIN 
 		(SELECT sid,SUM(amount) amount FROM iaer GROUP BY sid) i 
 		ON s.sid = i.sid WHERE stime BETWEEN #{stime,jdbcType=VARCHAR} AND #{sremark,jdbcType=VARCHAR}
-		AND dept = #{sale,jdbcType=VARCHAR} AND s.stateid &lt;=10
+		AND dept = #{sale,jdbcType=VARCHAR} AND s.stateid &lt;=10 and studyfee>0
 	GROUP BY sale ORDER BY studyfee DESC
   </select>
   <!-- 查看指定部门中已交完的签单数-->
@@ -597,12 +607,23 @@
   	 SELECT eid stateid,COUNT(i.sid) backfee FROM signed s 
 	LEFT JOIN empinfo e ON e.ename = s.sale
 	LEFT JOIN
-		(SELECT sid, sum(amount)a FROM iaer GROUP BY sid) i ON i.sid = s.sid
-	 WHERE stime BETWEEN #{stime,jdbcType=VARCHAR} AND #{sremark,jdbcType=VARCHAR}
+		(SELECT sid, sum(amount)a,max(time) time FROM iaer GROUP BY sid) i ON i.sid = s.sid
+	 WHERE i.time BETWEEN #{stime,jdbcType=VARCHAR} AND #{sremark,jdbcType=VARCHAR}
 	 AND dept= #{sale,jdbcType=VARCHAR}  AND stateid &lt;=10 
-	 AND (studyfee+spacefee+depositfee) &lt;=a
+	 AND (studyfee+depositfee) &lt;=a and studyfee>0
 	GROUP BY sale 
   </select>
+  <!-- 查看指定部门中已交钱数-->
+  <select id="deptcollmoney"  resultMap="BaseResultMap" parameterType="com.icss.bean.Signed">
+  	 SELECT eid stateid,sum(a) depositfee FROM signed s 
+	LEFT JOIN empinfo e ON e.ename = s.sale
+	LEFT JOIN
+		(SELECT sid, sum(amount)a,max(time) time FROM iaer GROUP BY sid) i ON i.sid = s.sid
+	 WHERE i.time BETWEEN #{stime,jdbcType=VARCHAR} AND #{sremark,jdbcType=VARCHAR}
+	 AND dept= #{sale,jdbcType=VARCHAR}  AND stateid &lt;=10 
+	GROUP BY sale 
+  </select>
+
   
   <!-- 已完成的退返款申请的信息 （可打印）-->
   <select id="tobeprint" resultMap="BaseResultMap">
@@ -945,13 +966,13 @@
   
 <!-- 查看所有部门的签单与收入 c -->
 <select id="DepyCollections" resultMap="BaseResultMap" parameterType="com.icss.bean.Signed">
-	SELECT did stateid, dept sale,SUM(s.studyfee+s.spacefee+s.backfee+s.depositfee) studyfee , SUM(a) depositfee,COUNT(s.sid) speoplenum
+	SELECT did stateid, dept sale,SUM(s.studyfee+s.spacefee+s.backfee+s.depositfee) studyfee ,COUNT(s.sid) speoplenum
 	from signed s LEFT JOIN empinfo e ON e.ename=s.sale
 	LEFT JOIN (SELECT sid,SUM(amount) a FROM iaer GROUP BY sid) i 
 	ON s.sid = i.sid
 	where s.stime   
 	BETWEEN #{stime,jdbcType=VARCHAR}
-	and  #{sremark,jdbcType=VARCHAR} AND s.stateid &lt;=10
+	and  #{sremark,jdbcType=VARCHAR} AND s.stateid &lt;=10 and s.studyfee>0
 	GROUP BY dept 
 </select>
 
@@ -959,12 +980,23 @@
 <select id="deptConllnum" resultMap="BaseResultMap" parameterType="com.icss.bean.Signed">
 	SELECT did stateid, dept,count(i.sid) backfee FROM signed s
 	INNER JOIN empinfo e ON e.ename = s.sale INNER JOIN (
-	SELECT sid,SUM(amount) a FROM iaer GROUP BY sid)i
+	SELECT sid,SUM(amount) a,max(time) time FROM iaer GROUP BY sid)i
 	ON s.sid = i.sid
-	WHERE s.stime   
+	WHERE i.time   
 		BETWEEN #{stime,jdbcType=VARCHAR}
 		and  #{sremark,jdbcType=VARCHAR} AND s.stateid &lt;=10
-		AND (studyfee+spacefee+depositfee) &lt;=a
+		AND (studyfee+depositfee) &lt;=a and studyfee>0
+		GROUP BY dept
+</select>
+<!-- 查看所有部门指定时间的收款钱数 -->
+<select id="deptConllmoney" resultMap="BaseResultMap" parameterType="com.icss.bean.Signed">
+	SELECT did stateid,sum(a) depositfee FROM signed s
+	INNER JOIN empinfo e ON e.ename = s.sale INNER JOIN (
+	SELECT sid,SUM(amount) a,max(time) time FROM iaer GROUP BY sid)i
+	ON s.sid = i.sid
+	WHERE i.time   
+		BETWEEN #{stime,jdbcType=VARCHAR}
+		and  #{sremark,jdbcType=VARCHAR} AND s.stateid &lt;=10
 		GROUP BY dept
 </select>
 <!-- 根据部门查询签单与收入 c -->

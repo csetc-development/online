@@ -76,7 +76,6 @@ public class SignedBusiness {
 			sign = signedDao.salecontribute(s);
 			result = signedDao.collectionNumber(s);
 		}
-		
 		return checkdata(sign,result);
 	}
 	
