@@ -595,7 +595,7 @@
   
   <!-- 查看所有课程顾问列表 -->
   <select id="nowcoursepeopleselect" resultMap="CtypeMap">
-  	SELECT eid ctypeid, username ctypename from users
+  	SELECT username ctypename from users
   </select>
   <!-- 查看所有来源渠道列表 -->
   <select id="sourceselect" resultMap="CtypeMap">
@@ -620,6 +620,16 @@
   <!-- 查看客户标签列表 -->
   <select id="customerlabelselect" resultMap="CtypeMap">
   	SELECT clabelid ctypeid,clabelname ctypename FROM customerlabel
+  </select>
+  
+  <!-- 查看所有来源渠道-->
+  <select id="sourceandchannel" resultMap="CtypeMap">
+  	SELECT scdid ctypeid,scdname ctypename FROM sourcechanneldetail WHERE scdupid=#{scdupid,jdbcType=INTEGER}
+  </select>
+  
+  <!-- 查看所有课程 -->
+  <select id="allcoure" resultMap="CtypeMap">
+  	SELECT icname ctypename FROM intentionjob 
   </select>
   
   <!-- 多条件查询简历信息 -->

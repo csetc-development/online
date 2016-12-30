@@ -36,7 +36,7 @@ public class CustomerinfoMapperImpl extends BasicSqlSupport implements Customeri
 	@Override
 	public int updateByPrimaryKeySelective(Customerinfo record) {
 		// TODO Auto-generated method stub
-		return 0;
+		return this.session.update("com.icss.dao.CustomerinfoMapper.updateByPrimaryKeySelective",record);
 	}
 
 	@Override
@@ -103,6 +103,18 @@ public class CustomerinfoMapperImpl extends BasicSqlSupport implements Customeri
 	public List<Customerinfo> Screen(Customerinfo customerinfo) {
 		// TODO Auto-generated method stub
 		return this.session.selectList("com.icss.dao.CustomerinfoMapper.Screen",customerinfo);
+	}
+
+	@Override
+	public List<Customertype> sourceandchannel(int scdid) {
+		// TODO Auto-generated method stub
+		return this.session.selectList("com.icss.dao.CustomerinfoMapper.sourceandchannel",scdid);
+	}
+
+	@Override
+	public List<Customertype> allcoure() {
+		// TODO Auto-generated method stub
+		return this.session.selectList("com.icss.dao.CustomerinfoMapper.allcoure");
 	}
 
 }

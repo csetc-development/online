@@ -14,7 +14,7 @@
 <head>
 <base href="<%=basePath%>">
 
-<title>ETC-客户管理-咨询客户</title>
+<title>ETC-客户管理-资源分配</title>
  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <!-- Bootstrap core CSS -->
 <%-- <link href=" <%=basePath%>css/add_stu.css" rel="stylesheet" type="text/css"> --%>
@@ -45,12 +45,11 @@
 
 	
 <body>
-	<!-- 表格中toolbar -->
-	<div id="consulation">
+	<div id="distribution">
 		<form id="Screenform" enctype="multipart/form-data" class="formcontrols">
 			<div class="btn-group"> 
-				<button id="btn_add" type="button" class="btn btn-xs btn-primary" onclick="register()">
-					<span class="glyphicon glyphicon-plus" aria-hidden="true">登记</span>
+				<button id="btn_add" type="button" class="btn btn-xs btn-primary" onclick="allot()">
+					<span class="glyphicon glyphicon-flag" aria-hidden="true">分配</span>
 				</button>
 				<button id="btn_delete" type="button"
 					class="btn btn-xs btn-warning" onclick="updatecustomerinfo()">
@@ -87,12 +86,11 @@
 				<option value="">意向课程</option>
 			</select>
 		</form>
-	</div><!-- toolbar结束 -->
-	<!-- 客户表格信息 -->
+	</div>
 	<table class="table table-striped">
 		<tr>
 			<td>
-				<table id="consulationtable" data-toggle="table"
+				<table id="distributiontable" data-toggle="table"
 			           data-url="customer/allcustomerinfo.do?pagenum=1"
 			           data-data-type="json"
 			           data-show-columns="true"
@@ -103,8 +101,8 @@
 			           data-sort-stable="true"
 			           data-minimum-count-columns="10"
 			           data-id-field="cid"
-			           data-unique-id="tel"
-					   data-toolbar="#consulation" 
+			           data-unique-id="cid"
+					   data-toolbar="#distribution" 
 			           class="table table-striped" style="width:100%">
 			        <thead>
 			        <tr>
@@ -147,118 +145,28 @@
 			    </table>
 			</td>
 		</tr>
-	</table><!-- 客户表格信息结束  -->
-	
-	<!-- 登记客户信息对话框 -->  
-    <div class="modal" id="registerModal">
-		<div class="modal-dialog modal-lg">
+	</table>
+	  
+    <div class="modal" id="distributionModal">
+		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal"
 						aria-hidden="true">&times;</button>
-					<h4 class="modal-title">登记客户信息</h4>
+					<h4 class="modal-title">客户分配</h4>
 				</div>
-				<form id="insertcustomerform" class="form-horizontal" enctype="multipart/form-data">
-				<input type="hidden" name="cid">
-				<input type="hidden" name="lyqd">
-				<input type="hidden" name="qdmx">
 				<div class="modal-body">
-					<div class="form-group">
-						<span class="col-md-2 control-label">姓名：</span>
-						<div class="col-md-3">
-							<input class="input-sm form-control" name="name" type="text" required="required">
-						</div>
-						<span class="col-md-2 control-label">性别：</span>
-						<div class="col-md-3">
-							<input type="radio" value="男" name="sex" id="male" checked="checked"/><label for="male">男</label> 
-							<input type="radio" value="女" name="sex" id="female" /><label for="female">女</label>
-						</div>
-					</div>
-					<div class="form-group">
-						<span class="col-md-2 control-label">手机：</span>
-						<div class="col-md-3">
-							<input class="input-sm form-control" maxlength="11" name="tel"type="text" required="required">
-						</div>
-						<span class="col-md-2 control-label">qq/邮箱：</span>
-						<div class="col-md-3">
-							<input class="input-sm form-control" name="email" maxlength="20" type="text" required="required">
-						</div>
-					</div>
-					<div>
-						<div class="form-group">
-							<span class="col-md-2 control-label">学校：</span>
-							<div class="col-md-3">
-								<input class="input-sm form-control" name="school" type="text" required="required">
-							</div>
-						</div>
-						<div class="form-group">
-							<span class="col-md-2 control-label">学历：</span>
-							<div class="col-md-3">
-								<input class="input-sm form-control" name="education" type="text" required="required">
-							</div>
-							<span class="col-md-2 control-label">专业：</span>
-							<div class="col-md-3">
-								<input class="input-sm form-control" name="major" type="text" required="required">
-							</div>
-						</div>
-					</div>
-					<div class="form-group">
-						<span class="col-md-2 control-label">客户类型：</span>
-						<div class="col-md-3">
-							<select name="ctypeid">
-								<option>请选择</option>
-							</select>
-						</div>
-						<span class="col-md-2 control-label">来源渠道：</span>
-						<div class="col-md-3">
-							<select name="source">
-								<option>请选择</option>
-							</select>
-						</div>
-					</div>
-					<div class="form-group">
-						<span class="col-md-2 control-label">渠道明细：</span>
-						<div class="col-md-3">
-							<select name="channel">
-								<option>请选择</option>
-							</select>
-						</div>
-						<span class="col-md-2 control-label">采集人：</span>
-						<div class="col-md-3">
-							<select name="market">
-								<option>请选择</option>
-							</select>
-						</div>
-					</div>
-					<div class="form-group">
-						<span class="col-md-2 control-label">意向课程：</span>
-						<div class="col-md-3">
-							<select name="intentionjob">
-								<option>请选择</option>
-							</select>
-						</div>
-					</div>
-					
-					<div class="form-group">
-						<span class="col-md-2 control-label">备注：</span>
-						<div class="col-md-3">
-							<input class="input-sm form-control" name="remark" type="text">
-						</div>
-					</div>
-					
+					跟进负责人：<select id="disributionSelect"></select>
 				</div>
-				
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-					<button type="button" class="btn btn-primary" onclick="registersubmit()">登记</button>
+					<button type="button" class="btn btn-primary" onclick="dismodalsubmit()">分配</button>
 				</div>
-				</form>
 			</div>
 		</div>
-	</div><!-- 登记客户信息对话框结束 -->
-	
-	<!-- 更新对话框    -->
-	<div class="modal" id="updatecustomerModal">
+	</div>
+	<div id="errormsg"></div>
+    <div class="modal" id="updatecustomerModal">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -285,7 +193,7 @@
 						<div class="col-md-3">
 							<input class="input-sm form-control" name="tel"type="text" required="required">
 						</div>
-						<span class="col-md-2 control-label">qq/邮箱：</span>
+						<span class="col-md-2 control-label">邮箱：</span>
 						<div class="col-md-3">
 							<input class="input-sm form-control" name="email" maxlength="8" type="text" required="required">
 						</div>
@@ -349,7 +257,7 @@
 				</div>
 			</div>
 		</div>
-	</div><!-- 更新对话框结束 -->
+	</div>
 	<!-- Bootstrap core JavaScript  ================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
 	<script src="<%=basePath%>js/bootstrap.js"></script>
@@ -363,7 +271,6 @@
 	<!-- Latest compiled and minified Locales -->
 	<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.0/locale/bootstrap-table-zh-CN.min.js"></script>
 	<script type="text/javascript" src="<%=basePath%>myjs/allocation.js"></script>
-
 </body>
 </html>
 	

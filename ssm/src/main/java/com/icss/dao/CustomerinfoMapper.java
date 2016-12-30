@@ -32,5 +32,6 @@ public interface CustomerinfoMapper {
     
     List<Customerinfo> Screen(Customerinfo customerinfo);
     
-    
+    List<Customertype> sourceandchannel(int scdid);
+    List<Customertype> allcoure();
 }

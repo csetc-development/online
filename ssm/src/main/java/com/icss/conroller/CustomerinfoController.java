@@ -27,6 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.icss.bean.Customerinfo;
+import com.icss.bean.User;
 import com.icss.business.CustomerinfoBusiness;
 import com.icss.util.JsonDateValueProcessor;
 import com.icss.util.ReadExcel;
@@ -105,12 +106,21 @@ public class CustomerinfoController {
 	}
 	
 	/**
-	 * 跳转到客户信息页面
+	 * 跳转到分配客户信息页面
 	 * @param request
 	 * @return
 	 */
 	@RequestMapping("distribution.do")
 	public String distribution(){
+		return "sale/allocation";
+	}
+	/**
+	 * 跳转到咨询客户页面
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("consultation.do")
+	public String consultation(){
 		return "sale/consultation";
 	}
 	/**
@@ -159,5 +169,40 @@ public class CustomerinfoController {
 		return JSONArray.fromObject(customerinfoBusiness.Screen(customer,request),jsonConfig).toString();
 	}
 	
+	/**
+	 * 更新简历信息
+	 * @param customer
+	 * @return
+	 */
+	@RequestMapping(value="updatecustomerinfo.do",produces = "text/plain;charset=UTF-8")
+	public @ResponseBody String updatecustomerinfo(@ModelAttribute("customer") Customerinfo customer){
+		return customerinfoBusiness.updatecustomer(customer);
+	}
+	
+	/**
+	 * 新增客户简历信息
+	 * @param customer
+	 * @return
+	 */
+	@RequestMapping(value="insertcustomer.do",produces = "text/plain;charset=UTF-8")
+	public @ResponseBody String insertcustomer(@ModelAttribute("customer") Customerinfo customer,HttpSession session,HttpServletRequest request){
+		String loginer = ((User)session.getAttribute("tempuser")).getUsername();
+		customer.setRegistrant(loginer);
+		customer.setNowcoursepeople(loginer);
+		customer.setEntrydate(new Date());
+		customer.setSource(request.getParameter("lyqd"));
+		customer.setChannel(request.getParameter("qdmx"));
+		return customerinfoBusiness.insertinto(customer)+"";
+	}
+	
+	/**
+	 * 模态框中下拉框数据
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("modalselectdata.do")
+	public @ResponseBody String modalselectdata(HttpServletRequest request){
+		return JSONArray.fromObject(customerinfoBusiness.modalselectdata(request)).toString();
+	}
 	
 }

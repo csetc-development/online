@@ -9,6 +9,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.poi.hssf.record.PageBreakRecord.Break;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.icss.bean.Customerinfo;
@@ -101,5 +102,37 @@ public class CustomerinfoBusiness {
 			customer.setSignletimr(sdf.parse(request.getParameter("endtime")));
 		}
 		return customerinfoDao.Screen(customer);
+	}
+	
+	/**
+	 * 修改客户信息
+	 * @param customerinfo
+	 * @return
+	 */
+	public String updatecustomer(Customerinfo customerinfo){
+		System.out.println(customerinfo.getCid());
+		if(customerinfoDao.updateByPrimaryKeySelective(customerinfo)==0){
+			return "修改"+customerinfo.getName()+"失败！";
+		}
+		return customerinfo.getName()+"的信息修改成功！";
+	}
+	
+	/**
+	 * 模态框中下拉框数据
+	 * @param request
+	 * @return
+	 */
+	public List<Customertype> modalselectdata(HttpServletRequest request){
+		String selectname = request.getParameter("selectname");
+		int scdid = Integer.parseInt(request.getParameter("scdid"));
+		List<Customertype> list = new ArrayList<Customertype>();
+		switch(selectname){
+		case "ctypeid" : list= customerinfoDao.customertypeselect(); break;
+		case "source" : list=customerinfoDao.sourceandchannel(scdid);break;
+		case "channel" : list=customerinfoDao.sourceandchannel(scdid);break;
+		case "market" : list= customerinfoDao.nowcoursepeopleselect();break;
+		case "intentionjob" :list=customerinfoDao.allcoure();break;
+		}
+		return list;
 	}
 }

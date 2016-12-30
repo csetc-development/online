@@ -807,6 +807,7 @@ ul{
 	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 	<script src="<%=basePath%>js/ie10-viewport-bug-workaround.js"></script>
 	<script src="<%=basePath%>js/page.js"></script>
+	<script src="<%=basePath%>js/move-model.js"></script>
 </body>
 </html>
 	
