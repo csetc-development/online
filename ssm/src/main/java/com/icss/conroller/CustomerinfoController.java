@@ -175,8 +175,8 @@ public class CustomerinfoController {
 	 * @return
 	 */
 	@RequestMapping(value="updatecustomerinfo.do",produces = "text/plain;charset=UTF-8")
-	public @ResponseBody String updatecustomerinfo(@ModelAttribute("customer") Customerinfo customer){
-		return customerinfoBusiness.updatecustomer(customer);
+	public @ResponseBody String updatecustomerinfo(@ModelAttribute("customer") Customerinfo customer,HttpServletRequest request){
+		return customerinfoBusiness.updatecustomer(customer,request);
 	}
 	
 	/**

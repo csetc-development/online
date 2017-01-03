@@ -5,6 +5,98 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+	<!-- 更新(修改)对话框    -->
+	<div class="modal" id="updatecustomerModal">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 class="modal-title">客户修改</h4>
+				</div>
+				<form id="updatecustomerform" class="form-horizontal" enctype="multipart/form-data">
+				<input type="hidden" name="cid">
+				<div class="modal-body">
+					<div class="form-group">
+						<span class="col-md-2 control-label">姓名：</span>
+						<div class="col-md-3">
+							<input class="input-sm form-control" name="name" type="text" required="required">
+						</div>
+						<span class="col-md-2 control-label">性别：</span>
+						<div class="col-md-3">
+							<input type="radio" value="男" name="sex" id="male" /><label for="male">男</label> 
+							<input type="radio" value="女" name="sex" id="female" /><label for="female">女</label>
+						</div>
+					</div>
+					<div class="form-group">
+						<span class="col-md-2 control-label">手机：</span>
+						<div class="col-md-3">
+							<input class="input-sm form-control" name="tel"type="text" required="required">
+						</div>
+						<span class="col-md-2 control-label">qq/邮箱：</span>
+						<div class="col-md-3">
+							<input class="input-sm form-control" name="email" maxlength="8" type="text" required="required">
+						</div>
+					</div>
+					<div class="form-group">
+						<span class="col-md-2 control-label">客户类型：</span>
+						<div class="col-md-3">
+							<input class="input-sm form-control" name="ctypeid" type="text" required="required">
+						</div>
+						<span class="col-md-2 control-label">来源渠道：</span>
+						<div class="col-md-3">
+							<input class="input-sm form-control" name="source" maxlength="8" type="text" required="required">
+						</div>
+					</div>
+					<div class="form-group">
+						<span class="col-md-2 control-label">渠道明细：</span>
+						<div class="col-md-3">
+							<input class="input-sm form-control" name="channel" type="text" required="required">
+						</div>
+						<span class="col-md-2 control-label">采集人：</span>
+						<div class="col-md-3">
+							<input class="input-sm form-control" name="market" maxlength="8" type="text" required="required">
+						</div>
+					</div>
+					<div class="form-group">
+						<span class="col-md-2 control-label">意向课程：</span>
+						<div class="col-md-3">
+							<input class="input-sm form-control" name="intentionjob" type="text" required="required">
+						</div>
+					</div>
+					<div>
+						<div class="form-group">
+							<span class="col-md-2 control-label">学校：</span>
+							<div class="col-md-3">
+								<input class="input-sm form-control" name="school" type="text" required="required">
+							</div>
+						</div>
+						<div class="form-group">
+							<span class="col-md-2 control-label">学历：</span>
+							<div class="col-md-3">
+								<input class="input-sm form-control" name="education" type="text" required="required">
+							</div>
+							<span class="col-md-2 control-label">专业：</span>
+							<div class="col-md-3">
+								<input class="input-sm form-control" name="major" type="text" required="required">
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<span class="col-md-2 control-label">备注：</span>
+						<div class="col-md-3">
+							<input class="input-sm form-control" name="remark" type="text">
+						</div>
+					</div>
+					
+				</div>
+				</form>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					<button class="btn btn-primary" onclick="updatecustomersubmit()">修改</button>
+				</div>
+			</div>
+		</div>
+	</div><!-- 更新对话框结束 -->
 </body>
 </html>

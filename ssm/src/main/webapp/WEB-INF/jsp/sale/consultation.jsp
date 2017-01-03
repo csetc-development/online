@@ -53,7 +53,7 @@
 					<span class="glyphicon glyphicon-plus" aria-hidden="true">登记</span>
 				</button>
 				<button id="btn_delete" type="button"
-					class="btn btn-xs btn-warning" onclick="updatecustomerinfo()">
+					class="btn btn-xs btn-warning" onclick="updatecustomerinfo('updatecustomerModalcon','consulationtable')">
 					<span class="glyphicon glyphicon-edit" aria-hidden="true">修改</span>
 				</button>
 			</div>
@@ -103,7 +103,7 @@
 			           data-sort-stable="true"
 			           data-minimum-count-columns="10"
 			           data-id-field="cid"
-			           data-unique-id="tel"
+			           data-unique-id="cid"
 					   data-toolbar="#consulation" 
 			           class="table table-striped" style="width:100%">
 			        <thead>
@@ -241,8 +241,8 @@
 					
 					<div class="form-group">
 						<span class="col-md-2 control-label">备注：</span>
-						<div class="col-md-3">
-							<input class="input-sm form-control" name="remark" type="text">
+						<div class="col-md-8">
+							<textarea class="input-sm form-control" rows="3" cols="12" name="remark"></textarea>
 						</div>
 					</div>
 					
@@ -257,8 +257,8 @@
 		</div>
 	</div><!-- 登记客户信息对话框结束 -->
 	
-	<!-- 更新对话框    -->
-	<div class="modal" id="updatecustomerModal">
+	<!-- 更新(修改)对话框    -->
+	<div class="modal" id="updatecustomerModalcon">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -268,6 +268,8 @@
 				</div>
 				<form id="updatecustomerform" class="form-horizontal" enctype="multipart/form-data">
 				<input type="hidden" name="cid">
+				<input type="hidden" name="lyqd">
+				<input type="hidden" name="qdmx">
 				<div class="modal-body">
 					<div class="form-group">
 						<span class="col-md-2 control-label">姓名：</span>
@@ -293,27 +295,27 @@
 					<div class="form-group">
 						<span class="col-md-2 control-label">客户类型：</span>
 						<div class="col-md-3">
-							<input class="input-sm form-control" name="ctypeid" type="text" required="required">
+							<select name="ctypeid"></select>
 						</div>
 						<span class="col-md-2 control-label">来源渠道：</span>
 						<div class="col-md-3">
-							<input class="input-sm form-control" name="source" maxlength="8" type="text" required="required">
+							<select name="source"></select>
 						</div>
 					</div>
 					<div class="form-group">
 						<span class="col-md-2 control-label">渠道明细：</span>
 						<div class="col-md-3">
-							<input class="input-sm form-control" name="channel" type="text" required="required">
+							<select name="channel"></select>
 						</div>
 						<span class="col-md-2 control-label">采集人：</span>
 						<div class="col-md-3">
-							<input class="input-sm form-control" name="market" maxlength="8" type="text" required="required">
+							<select name="market"></select>
 						</div>
 					</div>
 					<div class="form-group">
 						<span class="col-md-2 control-label">意向课程：</span>
 						<div class="col-md-3">
-							<input class="input-sm form-control" name="intentionjob" type="text" required="required">
+							<select name="intentionjob"></select>
 						</div>
 					</div>
 					<div>
@@ -336,8 +338,8 @@
 					</div>
 					<div class="form-group">
 						<span class="col-md-2 control-label">备注：</span>
-						<div class="col-md-3">
-							<input class="input-sm form-control" name="remark" type="text">
+						<div class="col-md-8">
+							<textarea class="input-sm form-control" rows="3" cols="12" name="remark"></textarea>
 						</div>
 					</div>
 					
@@ -345,11 +347,13 @@
 				</form>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-					<button class="btn btn-primary" onclick="updatecustomersubmit()">修改</button>
+					<button class="btn btn-primary" onclick="updatecustomersubmit('updatecustomerform','updatecustomerModalcon')">修改</button>
 				</div>
 			</div>
 		</div>
 	</div><!-- 更新对话框结束 -->
+	<!-- 客户跟进框  -->
+	<!-- 客户跟进框结束  -->
 	<!-- Bootstrap core JavaScript  ================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
 	<script src="<%=basePath%>js/bootstrap.js"></script>

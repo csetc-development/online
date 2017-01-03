@@ -52,7 +52,7 @@
 					<span class="glyphicon glyphicon-flag" aria-hidden="true">分配</span>
 				</button>
 				<button id="btn_delete" type="button"
-					class="btn btn-xs btn-warning" onclick="updatecustomerinfo()">
+					class="btn btn-xs btn-warning" onclick="updatecustomerinfo('updatecustomerModalall','distributiontable')">
 					<span class="glyphicon glyphicon-edit" aria-hidden="true">修改</span>
 				</button>
 			</div>
@@ -146,7 +146,7 @@
 			</td>
 		</tr>
 	</table>
-	  
+	<!-- 客户分配弹出框 --> 
     <div class="modal" id="distributionModal">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -164,9 +164,9 @@
 				</div>
 			</div>
 		</div>
-	</div>
-	<div id="errormsg"></div>
-    <div class="modal" id="updatecustomerModal">
+	</div><!-- 客户分配弹出框结束 -->
+	<!-- 更新（修改）弹出框 -->
+    <div class="modal" id="updatecustomerModalall">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -176,6 +176,8 @@
 				</div>
 				<form id="updatecustomerform" class="form-horizontal" enctype="multipart/form-data">
 				<input type="hidden" name="cid">
+				<input type="hidden" name="lyqd">
+				<input type="hidden" name="qdmx">
 				<div class="modal-body">
 					<div class="form-group">
 						<span class="col-md-2 control-label">姓名：</span>
@@ -201,27 +203,27 @@
 					<div class="form-group">
 						<span class="col-md-2 control-label">客户类型：</span>
 						<div class="col-md-3">
-							<input class="input-sm form-control" name="ctypeid" type="text" required="required">
+							<select name="ctypeid"></select>
 						</div>
 						<span class="col-md-2 control-label">来源渠道：</span>
 						<div class="col-md-3">
-							<input class="input-sm form-control" name="source" maxlength="8" type="text" required="required">
+							<select name="source"></select>
 						</div>
 					</div>
 					<div class="form-group">
 						<span class="col-md-2 control-label">渠道明细：</span>
 						<div class="col-md-3">
-							<input class="input-sm form-control" name="channel" type="text" required="required">
+							<select name="channel"></select>
 						</div>
 						<span class="col-md-2 control-label">采集人：</span>
 						<div class="col-md-3">
-							<input class="input-sm form-control" name="market" maxlength="8" type="text" required="required">
+							<select name="market"></select>
 						</div>
 					</div>
 					<div class="form-group">
 						<span class="col-md-2 control-label">意向课程：</span>
 						<div class="col-md-3">
-							<input class="input-sm form-control" name="intentionjob" type="text" required="required">
+							<select name="intentionjob"></select>
 						</div>
 					</div>
 					<div>
@@ -244,20 +246,21 @@
 					</div>
 					<div class="form-group">
 						<span class="col-md-2 control-label">备注：</span>
-						<div class="col-md-3">
-							<input class="input-sm form-control" name="remark" type="text">
+						<div class="col-md-8">
+							<textarea class="input-sm form-control" rows="3" cols="12" name="remark"></textarea>
 						</div>
 					</div>
-					
 				</div>
 				</form>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-					<button class="btn btn-primary" onclick="updatecustomersubmit()">修改</button>
+					<button class="btn btn-primary" onclick="updatecustomersubmit('updatecustomerform','updatecustomerModalall')">修改</button>
 				</div>
 			</div>
 		</div>
 	</div>
+	<!-- 更新（修改）弹出框  -->
+	
 	<!-- Bootstrap core JavaScript  ================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
 	<script src="<%=basePath%>js/bootstrap.js"></script>

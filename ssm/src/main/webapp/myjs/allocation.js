@@ -83,6 +83,7 @@ function initselect(){
 	}); 
 }
 
+//弹出分配客户消息框
 function allot(){
 	if($("#distributiontable tbody input[type='checkbox']:checked").length<=0){
 		alert("请选择需要分配的客户!");
@@ -103,6 +104,7 @@ function allot(){
 	}
 }
 
+//分配客户信息
 function dismodalsubmit(){
 	//获得当前被选中的复选框
 	var cuscheckbox = $("#distributiontable tbody input[type='checkbox']:checked");
@@ -125,41 +127,82 @@ function dismodalsubmit(){
 		});
 	}
 }
-
-function updatecustomerinfo(){
-	var cuscheckbox = $("#distributiontable tbody input[type='checkbox']:checked");
+//弹出修改信息对话框
+function updatecustomerinfo(modalid,tableid){
+	var cuscheckbox = $("#"+tableid+" tbody input[type='checkbox']:checked");
 	if(cuscheckbox.length!=1){
 		alert("请选择一条数据再修改");
 	}else{
 		//弹出modal
-		var customerinfo = $("#distributiontable").bootstrapTable('getRowByUniqueId', cuscheckbox.val());
-		$("#updatecustomerModal input[name='cid']").val(customerinfo.cid);
-		$("#updatecustomerModal input[name='name']").val(customerinfo.name);
-		$("#updatecustomerModal input[type='radio'][name='sex'][value='"+customerinfo.sex+"']").attr("checked","checked");
-		$("#updatecustomerModal input[name='tel']").val(customerinfo.tel);
-		$("#updatecustomerModal input[name='email']").val(customerinfo.email);
-		$("#updatecustomerModal input[name='ctypeid']").val(customerinfo.ctypeid);
-		$("#updatecustomerModal input[name='source']").val(customerinfo.source);
-		$("#updatecustomerModal input[name='channel']").val(customerinfo.channel);
-		$("#updatecustomerModal input[name='market']").val(customerinfo.market);
-		$("#updatecustomerModal input[name='intentionjob']").val(customerinfo.intentionjob);
-		$("#updatecustomerModal input[name='school']").val(customerinfo.school);
-		$("#updatecustomerModal input[name='education']").val(customerinfo.education);
-		$("#updatecustomerModal input[name='major']").val(customerinfo.major);
-		$("#updatecustomerModal input[name='remark']").val(customerinfo.remark);
-		$("#updatecustomerModal").modal("show");
+		var customerinfo = $("#"+tableid).bootstrapTable('getRowByUniqueId', cuscheckbox.val());
+		$("#"+modalid+" input[name='cid']").val(customerinfo.cid);
+		$("#"+modalid+" input[name='name']").val(customerinfo.name);
+		$("#"+modalid+" input[type='radio'][name='sex'][value='"+customerinfo.sex+"']").attr("checked","checked");
+		$("#"+modalid+" input[name='tel']").val(customerinfo.tel);
+		$("#"+modalid+" input[name='email']").val(customerinfo.email);
+		$("#"+modalid+" input[name='ctypeid']").val(customerinfo.ctypeid);
+		$("#"+modalid+" input[name='source']").val(customerinfo.source);
+		$("#"+modalid+" input[name='channel']").val(customerinfo.channel);
+		$("#"+modalid+" input[name='market']").val(customerinfo.market);
+		$("#"+modalid+" input[name='intentionjob']").val(customerinfo.intentionjob);
+		$("#"+modalid+" input[name='school']").val(customerinfo.school);
+		$("#"+modalid+" input[name='education']").val(customerinfo.education);
+		$("#"+modalid+" input[name='major']").val(customerinfo.major);
+		$("#"+modalid+" input[name='remark']").val(customerinfo.remark);
+		selectmodaldata(modalid,customerinfo.ctypeid,customerinfo.source,customerinfo.channel,customerinfo.market,customerinfo.intentionjob);
+		$("#"+modalid+"").modal("show");
 	}
 }
+//为每个下拉框赋值
+function selectmodaldata(modalid,ctypeid,source,channel,market,intentionjob){
+	var selectdata = $("#"+modalid+" select");
+	selectdata.each(function(){ //由于复选框一般选中的是多个,所以可以循环输出 
+		var selectname = $(this).attr("name");
+		var tmp = selectname;
+		$.ajax({
+			url:"customer/modalselectdata.do",
+			dataType:"json",
+			data:{"selectname":selectname,"scdid":0},
+			async:false, //这是重要的一步，防止重复提交的
+			success:function(data){
+				if(data!=null && data.length>0){
+					var htmlcontext="";
+					for(var obj in data){
+						var v = data[obj].ctypeid>0?data[obj].ctypeid:data[obj].ctypename;
+						if(selectname=="ctypeid"&&ctypeid==v){
+							htmlcontext +="<option selected='selected' value='"+v+"'>"+data[obj].ctypename+"</option>";
+						}else if(selectname="source"&&source==v ){
+							htmlcontext +="<option selected='selected' value='"+v+"'>"+data[obj].ctypename+"</option>";
+						}else if(selectname="channel"&&channel==v ){
+							htmlcontext +="<option selected='selected' value='"+v+"'>"+data[obj].ctypename+"</option>";
+						}else if(selectname="market"&&market==v ){
+							htmlcontext +="<option selected='selected' value='"+v+"'>"+data[obj].ctypename+"</option>";
+						}else if(selectname="intentionjob"&&intentionjob==v ){
+							htmlcontext +="<option selected='selected' value='"+v+"'>"+data[obj].ctypename+"</option>";
+						}else{
+							htmlcontext +="<option value='"+v+"'>"+data[obj].ctypename+"</option>";
+						}
+					}
+					$("#"+modalid+" select[name='"+tmp+"']").html(htmlcontext);
+				}
+			}
+		});
+	}); 
+}
 
-function updatecustomersubmit(){
+
+//修改用户信息
+function updatecustomersubmit(formid,modalid){
+	$("input[name='lyqd']").val($("#"+modalid+" select[name='source']").find("option:selected").text());
+	$("input[name='qdmx']").val($("#"+modalid+" select[name='channel']").find("option:selected").text());
 	$.ajax({ 
 		type:"POST",
 		url:"customer/updatecustomerinfo.do",
-		data:$("#updatecustomerform").serialize(),
+		data:$("#"+formid).serialize(),
 		dataType:"text",
 		success:function(data){
 			alert(data);
-			$("#updatecustomerModal").modal("hide");
+			$("#"+modalid).modal("hide");
 			$('table').bootstrapTable('refresh');
 			
 		}
@@ -191,7 +234,7 @@ function register(){
 	});
 	$("#registerModal").modal("show");
 }
-
+ 
 /**
  * 新增客户信息
  */

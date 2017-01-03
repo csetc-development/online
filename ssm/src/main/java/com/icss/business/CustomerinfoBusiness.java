@@ -109,8 +109,9 @@ public class CustomerinfoBusiness {
 	 * @param customerinfo
 	 * @return
 	 */
-	public String updatecustomer(Customerinfo customerinfo){
-		System.out.println(customerinfo.getCid());
+	public String updatecustomer(Customerinfo customerinfo,HttpServletRequest request){
+		customerinfo.setSource(request.getParameter("lyqd"));;
+		customerinfo.setChannel(request.getParameter("qdmx"));
 		if(customerinfoDao.updateByPrimaryKeySelective(customerinfo)==0){
 			return "修改"+customerinfo.getName()+"失败！";
 		}
