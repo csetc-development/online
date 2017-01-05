@@ -140,3 +140,50 @@ function outalldata(){
 		return false;
 	}
 }
+
+//模糊查询客户数据
+function selectonebyall(){
+	if($("#zjlcx").val()!=""){
+		$.ajax({
+			type:"POST",
+			url:"signed/selectsomrbyall.do",
+			data:{"name":$("#zjlcx").val()},
+			dataType:"json",
+			success:function(data){
+				if(data.length>0){
+					var htmlcontext = "";
+    				for(var obj in data){
+    					var count  = data[obj].studyfee+data[obj].spacefee;
+    					if(data[obj].bank=="已完成"){
+    						htmlcontext +="<tr class='success'>";
+    					}else if(data[obj].bank=="未收款"){
+    						htmlcontext +="<tr class='warning'>";
+    					}else if(data[obj].bank=="已收款"){
+    						htmlcontext +="<tr class='info'>";
+    					}else if(data[obj].bank=="已删除"){
+    						htmlcontext +="<tr class='danger'>";
+    					}else{
+    						htmlcontext +="<tr>";
+    					}
+    					htmlcontext +="<td>"+data[obj].sid+"</td>"
+    					htmlcontext +="<td>"+data[obj].stime+"</td>"
+    					htmlcontext +="<td>"+data[obj].scustomername+"</td>"
+    					htmlcontext +="<td>￥"+(data[obj].studyfee).toLocaleString()+"</td>"
+    					htmlcontext +="<td>￥"+(data[obj].spacefee).toLocaleString()+"</td>"
+    					htmlcontext +="<td>￥"+(count).toLocaleString()+"</td>"
+    					htmlcontext +="<td>￥"+(data[obj].backfee).toLocaleString()+"</td>"
+    					htmlcontext +="<td>￥"+(data[obj].depositfee).toLocaleString()+"</td>"
+    					htmlcontext +="<td>￥"+(data[obj].stateid).toLocaleString()+"</td>"
+    					htmlcontext +="<td>"+data[obj].bank+"</td>"
+    					htmlcontext +="<td><a>"+data[obj].sale+"</a></td>"
+    					htmlcontext +="</tr>"
+    				}
+    				$("#allsign").html("");
+    				$("#allsigninfotable").find("tbody").html(htmlcontext);
+				}else{
+					alert("没有查到相关数据！");
+				}
+			}
+		})
+	}
+}

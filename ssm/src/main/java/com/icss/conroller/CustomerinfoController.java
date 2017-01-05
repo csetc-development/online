@@ -18,6 +18,7 @@ import net.sf.json.JsonConfig;
 
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +27,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.icss.bean.Bespeak;
 import com.icss.bean.Customerinfo;
+import com.icss.bean.Followup;
 import com.icss.bean.User;
 import com.icss.business.CustomerinfoBusiness;
 import com.icss.util.JsonDateValueProcessor;
@@ -204,5 +207,78 @@ public class CustomerinfoController {
 	public @ResponseBody String modalselectdata(HttpServletRequest request){
 		return JSONArray.fromObject(customerinfoBusiness.modalselectdata(request)).toString();
 	}
+	
+	/**
+	 * 跟进客户历史信息
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("followuphistory.do")
+	public @ResponseBody String followuphistory(HttpServletRequest request){
+		JsonConfig jsonConfig = new JsonConfig();
+		jsonConfig.registerJsonValueProcessor(Date.class,new JsonDateValueProcessor("yyyy-MM-dd HH:mm:ss"));
+		return JSONArray.fromObject(customerinfoBusiness.followuphistory(request),jsonConfig).toString();
+	}
+	/**
+	 * 有效性
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("validityid.do")
+	public @ResponseBody String validityid(HttpServletRequest request){
+		return JSONArray.fromObject(customerinfoBusiness.validity(request)).toString();
+	}
+	/**
+	 * 客户类型
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("customertype.do")
+	public @ResponseBody String customertype(HttpServletRequest request){
+		return JSONArray.fromObject(customerinfoBusiness.customertype(request)).toString();
+	}
+	
+	/**
+	 * 客户跟进信息
+	 * @param followup
+	 * @param request
+	 * @param session
+	 * @return
+	 * @throws ParseException
+	 */
+	@RequestMapping("followupsubmit.do")
+	public @ResponseBody String followupsubmit(@ModelAttribute("followup") Followup followup,HttpServletRequest request,HttpSession session) throws ParseException{
+		return customerinfoBusiness.followupsubmit(followup,request,session)+"";
+	}
+	
+	@RequestMapping("purpose.do")
+	public @ResponseBody String purpose(HttpServletRequest request) {
+		return JSONArray.fromObject(customerinfoBusiness.selectdata(request)).toString();
+	}
+	
+	@RequestMapping("receptionaddress.do")
+	public @ResponseBody String receptionaddress(HttpServletRequest request) {
+		return JSONArray.fromObject(customerinfoBusiness.selectdata(request)).toString();
+	}
+	
+	/**
+	 * 新增预约客户记录
+	 * @param bespeak
+	 * @return
+	 */
+	@RequestMapping("ordersubmits.do")
+	public @ResponseBody String ordersubmits(@ModelAttribute("bespeak") Bespeak bespeak ,HttpSession session){
+		return customerinfoBusiness.ordersubmits(bespeak,session)+"";
+	}
+	
+	/**
+	 * 查看某客户的所有预约记录
+	 * @param request
+	 * @return
+	 */
+	/*@RequestMapping("orderrecord.do")
+	public @ResponseBody String orderrecord(HttpServletRequest request){
+		return JSONArray.fromObject(customerinfoBusiness.orderrecord(request)).toString();
+	}*/
 	
 }

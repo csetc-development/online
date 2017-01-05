@@ -658,6 +658,19 @@
 	order by stateid, stime desc,backfee
   </select>
   
+   <!-- 查看所有的签单信息  -->
+  <select id="selectsomrbyall" resultMap="SignedMap" parameterType="java.lang.String">
+  <bind name="name" value="'%'+ _parameter +'%'"/>
+  	select 
+	    si.sid, stime, sbusinesstype, scustomername, scustomerschool, scustomercollege, scustomermajor, 
+	    scustomercardid, scustomerbankcardid, scustomergrade, speoplenum, studyfee, spacefee, 
+	    backfee, depositfee, sale, dept, sarea, sremark, ifnull(allmoney,0) stateid,st.`condition` bank
+	    from signed si INNER JOIN `status` st ON si.stateid = st.stateid
+	    LEFT JOIN (SELECT sid,sum(amount) allmoney FROM iaer GROUP BY sid) i ON
+		si.sid = i.sid where scustomername like #{name,jdbcType=VARCHAR} or sale like #{name,jdbcType=VARCHAR} or dept like  #{name,jdbcType=VARCHAR}
+	order by stateid, stime desc,backfee
+  </select>
+  
   <!-- 查询状态为未收款的数据 -->
   <select id="nopayinfo" resultMap="BaseResultMap" parameterType="com.icss.bean.Signed">
   	SELECT  

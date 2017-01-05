@@ -9,11 +9,12 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.apache.poi.hssf.record.PageBreakRecord.Break;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.icss.bean.Bespeak;
 import com.icss.bean.Customerinfo;
 import com.icss.bean.Customertype;
+import com.icss.bean.Followup;
 import com.icss.bean.User;
 import com.icss.dao.CustomerinfoMapper;
 
@@ -84,6 +85,8 @@ public class CustomerinfoBusiness {
 			case "nowcoursepeopleselect": list= customerinfoDao.nowcoursepeopleselect();break;
 			case "customerlabelselect": list= customerinfoDao.customerlabelselect();break;
 			case "intentionjobselect": list= customerinfoDao.intentionjobselect();break;
+			case "purpose": list= customerinfoDao.purpose();break;
+			case "receptionaddress": list= customerinfoDao.receptionaddress();break;
 			default:break;
 		}
 		return list;
@@ -135,5 +138,82 @@ public class CustomerinfoBusiness {
 		case "intentionjob" :list=customerinfoDao.allcoure();break;
 		}
 		return list;
+	}
+	
+	
+	/**
+	 * 某客户的跟进历史记录
+	 * @param request
+	 * @return
+	 */
+	public List<Followup> followuphistory(HttpServletRequest request){
+		int cid = Integer.parseInt(request.getParameter("cid"));
+		return customerinfoDao.followuphistory(cid);
+	}
+	
+	/**
+	 * 跟进时客户类型
+	 * @param request
+	 * @return
+	 */
+	public List<Customertype> customertype(HttpServletRequest request){
+		return customerinfoDao.customertype(Integer.parseInt(request.getParameter("cid")));
+	}
+	
+	/**
+	 * 跟进时客户有效性
+	 * @param request
+	 * @return
+	 */
+	public List<Customertype> validity(HttpServletRequest request){
+		return customerinfoDao.validity(Integer.parseInt(request.getParameter("cid")));
+	}
+	
+	/**
+	 * 新增客户跟进信息
+	 * @param followup
+	 * @return
+	 * @throws ParseException 
+	 */
+	public int followupsubmit(Followup followup,HttpServletRequest request,HttpSession session) throws ParseException{
+		//修改客户咨询（简历）信息
+		Customerinfo c = new Customerinfo();
+		c.setCid(followup.getCid());
+		if(request.getParameter("validityid")!=null){
+			c.setValidityid(Integer.parseInt(request.getParameter("validityid")));
+		}
+		if(request.getParameter("ctypeid")!=null){
+			c.setCtypeid(Integer.parseInt(request.getParameter("ctypeid")));
+		}
+		customerinfoDao.updateByPrimaryKeySelective(c);
+		
+		//新增跟进记录
+		followup.setFpeople(((User)session.getAttribute("tempuser")).getUsername());
+		followup.setFtime(new Date());
+		SimpleDateFormat sdf =   new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		followup.setFnexttime(sdf.parse( request.getParameter("xcgjsj")));
+		return customerinfoDao.followupsubmit(followup);
+		
+	} 
+	
+	/**
+	 * 新增预约记录
+	 * @param bespeak
+	 * @return
+	 */
+	public int ordersubmits(Bespeak bespeak,HttpSession session){
+		bespeak.setBappotime(new Date());
+		bespeak.setBperson(((User)session.getAttribute("tempuser")).getUsername());
+		bespeak.setBvisit(0);
+		return customerinfoDao.ordersubmits(bespeak);
+	}
+	
+	/**
+	 * 查看某学员全部预约记录
+	 * @param request
+	 * @return
+	 */
+	public List<Bespeak> orderrecord(HttpServletRequest request){
+		return customerinfoDao.orderrecord(Integer.parseInt(request.getParameter("cid")));
 	}
 }

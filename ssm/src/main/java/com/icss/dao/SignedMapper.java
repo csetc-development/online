@@ -149,5 +149,5 @@ public interface SignedMapper {
     
     List<Signed> refundsalesign(Signed signed);
     
-
+    List<Signed> selectsomrbyall(String name);
 }

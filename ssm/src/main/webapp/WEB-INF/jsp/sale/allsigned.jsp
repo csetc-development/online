@@ -97,19 +97,21 @@ ul{
 						<thead>
 							<tr>
 								<td colspan="14">
-									<div class="btn-group">
-									 	<a id="btn_add" type="button" class="btn btn-xs btn-primary" onclick="return outalldata()" href="<%=basePath%>signed/OutExcel.do?fileName=签单数据.xlsx">
-											<span class="glyphicon glyphicon-arrow-down" aria-hidden="true">导出所有数据</span>
-										</a>
-										<!--<button id="btn_add" type="button" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#addonesign">
-											<span class="glyphicon glyphicon-plus" aria-hidden="true">新增</span>
-										</button>
-										<button id="btn_edit" type="button" class="btn btn-xs btn-success" onclick="updatacustomerinfo()">
-											<span class="glyphicon glyphicon-pencil" aria-hidden="true">修改</span>
-										</button>
-										<button id="btn_delete" type="button" class="btn btn-xs btn-warning" onclick="delectsigninfo()">
-											<span class="glyphicon glyphicon-remove" aria-hidden="true">删除</span>
-										</button> -->
+									<div class="container-fluid">
+										<div class="row-fluid">
+											<div class="col-md-3">
+												<div class="btn-group">
+												 	<a id="btn_add" type="button" class="btn btn-xs btn-primary" onclick="return outalldata()" href="<%=basePath%>signed/OutExcel.do?fileName=签单数据.xlsx">
+														<span class="glyphicon glyphicon-arrow-down" aria-hidden="true">导出所有数据</span>
+													</a>
+												</div>
+											</div>
+											<div class="col-md-9">
+												<div class="text-right">
+													<input placeholder="学生、销售、部门" type="text" id="zjlcx"/> <button class="btn btn-xs btn-primary" onclick="selectonebyall()">查询</button>
+												</div>
+											</div>
+										</div>
 									</div>
 								</td>
 							</tr>

@@ -545,7 +545,10 @@ public class SignedBusiness {
 		return signedDao.onesalesignsP(getsignedobj(request));
 	}
 	
-
+	public List<Signed> selectsomrbyall(HttpServletRequest request) {
+		return signedDao.selectsomrbyall(request.getParameter("name"));
+	}
+	
 	/***********************************************************************************************************/
 	
 	/** 

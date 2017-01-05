@@ -273,7 +273,7 @@
 	<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.0/bootstrap-table.min.js"></script>
 	<!-- Latest compiled and minified Locales -->
 	<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.0/locale/bootstrap-table-zh-CN.min.js"></script>
-	<script type="text/javascript" src="<%=basePath%>myjs/allocation.js"></script>
+	<script type="text/javascript" src="<%=basePath %>myjs/allocation.js"></script>
 </body>
 </html>
 	

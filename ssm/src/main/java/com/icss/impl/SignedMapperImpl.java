@@ -516,6 +516,11 @@ public class SignedMapperImpl extends BasicSqlSupport implements SignedMapper{
 		List<Signed> list = this.session.selectList("com.icss.dao.SignedMapper.signedinfoIsMinebycustomername", signed);
  		return new PageBean<Signed>(list);
 	}
+	@Override
+	public List<Signed> selectsomrbyall(String name) {
+		// TODO Auto-generated method stub
+		return this.session.selectList("com.icss.dao.SignedMapper.selectsomrbyall", name);
+	}
 
 
 	

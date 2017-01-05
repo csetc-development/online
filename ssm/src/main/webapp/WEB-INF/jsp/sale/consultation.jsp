@@ -21,10 +21,11 @@
 <link href="<%=basePath%>css/bootstrap.min.css" rel="stylesheet">
 <!-- page CSS -->
 <link href="<%=basePath%>css/page.css" rel="stylesheet">
-<link href="<%=basePath %>css/datePicker.css" rel="stylesheet" type="text/css" />
+<%-- <link href="<%=basePath %>css/datePicker.css" rel="stylesheet" type="text/css" /> --%>
 <!-- Custom styles for this template -->
 <link href="<%=basePath%>css/dashboard.css" rel="stylesheet">
-<link href="<%=basePath%>css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+
+
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.0/bootstrap-table.min.css">
 <link rel="stylesheet" href="<%=basePath%>css/consultation.css">
@@ -40,7 +41,6 @@
 <![endif]-->
 <script type="text/javascript" src="<%=basePath%>js/jquery.min.js"></script>
 <script type="text/javascript" src="<%=basePath%>js/moment-with-locales.min.js"></script>
-<script type="text/javascript" src="<%=basePath%>js/bootstrap-datetimepicker.min.js"></script>
 <script type="text/javascript" src="<%=basePath %>laydate/laydate.js"></script>
 
 	
@@ -48,44 +48,60 @@
 	<!-- 表格中toolbar -->
 	<div id="consulation">
 		<form id="Screenform" enctype="multipart/form-data" class="formcontrols">
-			<div class="btn-group"> 
-				<button id="btn_add" type="button" class="btn btn-xs btn-primary" onclick="register()">
-					<span class="glyphicon glyphicon-plus" aria-hidden="true">登记</span>
-				</button>
-				<button id="btn_delete" type="button"
-					class="btn btn-xs btn-warning" onclick="updatecustomerinfo('updatecustomerModalcon','consulationtable')">
-					<span class="glyphicon glyphicon-edit" aria-hidden="true">修改</span>
-				</button>
+			<div class="text-left">
+				<select class="timeselect" name="remark">
+					<option value="">日期</option>
+					<option value="entrydate">登记日期</option>
+					<option value="lastfollowtime">最近跟进</option>
+					<option value="birthdate">出生日期</option>
+				</select>
+				<input placeholder="开始日期" class="laydate-icon" onclick="laydate()" id="startime" name="startime" size="10px">
+				<input placeholder="结束日期" class="laydate-icon" onclick="laydate()" id="endtime" name="endtime" size="10px">
+				<select class="sourceselect" name="source">
+					<option value="">来源渠道</option>
+				</select>
+				<select class="channelselect" name="channel">
+					<option value="">渠道明细</option>
+				</select>
+				<select class="validityselect" name="validityid">
+					<option value="">有效性</option>
+				</select>
+				<select class="customertypeselect" name="ctypeid">
+					<option value="">客户类型</option>
+				</select>
+				<select class="nowcoursepeopleselect" name="nowcoursepeople">
+					<option value="">课程顾问</option>
+				</select>
+				<select class="customerlabelselect" name="clabelid">
+					<option value="">标签</option>
+				</select>
+				<select class="intentionjobselect" name="intentionjob">
+					<option value="">意向课程</option>
+				</select>
 			</div>
-			<select class="timeselect" name="remark">
-				<option value="">日期</option>
-				<option value="entrydate">登记日期</option>
-				<option value="lastfollowtime">最近跟进</option>
-				<option value="birthdate">出生日期</option>
-			</select>
-			<input placeholder="开始日期" class="laydate-icon" onclick="laydate()" id="startime" name="startime" size="10px">
-			<input placeholder="结束日期" class="laydate-icon" onclick="laydate()" id="endtime" name="endtime" size="10px">
-			<select class="sourceselect" name="source">
-				<option value="">来源渠道</option>
-			</select>
-			<select class="channelselect" name="channel">
-				<option value="">渠道明细</option>
-			</select>
-			<select class="validityselect" name="validityid">
-				<option value="">有效性</option>
-			</select>
-			<select class="customertypeselect" name="ctypeid">
-				<option value="">客户类型</option>
-			</select>
-			<select class="nowcoursepeopleselect" name="nowcoursepeople">
-				<option value="">课程顾问</option>
-			</select>
-			<select class="customerlabelselect" name="clabelid">
-				<option value="">标签</option>
-			</select>
-			<select class="intentionjobselect" name="intentionjob">
-				<option value="">意向课程</option>
-			</select>
+			<div class="text-left">
+				<div class="btn-group"> 
+					<button id="btn_add" type="button" class="btn btn-xs btn-primary" onclick="register()">
+						<span class="glyphicon glyphicon-plus" aria-hidden="true">登记</span>
+					</button>
+					<button id="btn_delete" type="button"
+						class="btn btn-xs btn-warning" onclick="updatecustomerinfo('updatecustomerModalcon','consulationtable')">
+						<span class="glyphicon glyphicon-edit" aria-hidden="true">修改</span>
+					</button>
+					<button id="btn_delete" type="button"
+						class="btn btn-xs btn-success" onclick="followupmodal()">
+						<span class=" glyphicon glyphicon-transfer" aria-hidden="true">跟进</span>
+					</button>
+					<button id="btn_delete" type="button"
+						class="btn btn-xs btn-info" onclick="order()">
+						<span class="glyphicon glyphicon-time" aria-hidden="true">预约</span>
+					</button>
+					<button id="btn_delete" type="button"
+						class="btn btn-xs btn-danger" onclick="audition()">
+						<span class=" glyphicon glyphicon-headphones" aria-hidden="true">试听</span>
+					</button>
+				</div>	
+			</div>
 		</form>
 	</div><!-- toolbar结束 -->
 	<!-- 客户表格信息 -->
@@ -262,8 +278,7 @@
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"
-						aria-hidden="true">&times;</button>
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 					<h4 class="modal-title">客户修改</h4>
 				</div>
 				<form id="updatecustomerform" class="form-horizontal" enctype="multipart/form-data">
@@ -342,7 +357,6 @@
 							<textarea class="input-sm form-control" rows="3" cols="12" name="remark"></textarea>
 						</div>
 					</div>
-					
 				</div>
 				</form>
 				<div class="modal-footer">
@@ -352,8 +366,235 @@
 			</div>
 		</div>
 	</div><!-- 更新对话框结束 -->
+	
 	<!-- 客户跟进框  -->
-	<!-- 客户跟进框结束  -->
+	<div class="modal" id="followupModla">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 class="modal-title">跟进客户</h4>
+				</div>
+				<div class="modal-body">
+					<div class="container-fluid">
+						<div class="row-fluid">
+							<div class="col-md-5" >
+								<div class="panel panel-primary">
+								  <div class="panel-heading">
+								    <h3 class="panel-title">基本信息</h3>
+								  </div>
+								  <div class="panel-body">
+								    <table class="table table-bordered" id="basicinformation">
+								    	<tr>
+								    		<td width="35%">编号</td>
+								    		<td></td>
+								    	</tr>
+								    	<tr>
+								    		<td>姓名</td>
+								    		<td></td>
+								    	</tr>
+								    	<tr>
+								    		<td>手机</td>
+								    		<td></td>
+								    	</tr>
+								    	<tr>
+								    		<td>现居地</td>
+								    		<td></td>
+								    	</tr>
+								    	<tr>
+								    		<td>渠道</td>
+								    		<td></td>
+								    	</tr>
+								    	<tr>
+								    		<td>备注</td>
+								    		<td></td>
+								    	</tr>
+								    </table>
+								  </div>
+								</div>
+							</div>
+							<div class="col-md-7">
+								<div class="panel panel-primary">
+								  <div class="panel-heading">
+								    <h3 class="panel-title">跟进客户</h3>
+								  </div>
+								  <div class="panel-body">
+								  	<form id="followuocustomerform" enctype="application/x-www-form-urlencoded" class="form-horizontal">
+								  		<input type="hidden" name="cid">
+								  		<div class="form-group">
+								  			<label class="col-md-3 col-md-offset-1">* 跟进时间</label>
+								  			<span class="col-md-7"></span>
+								  		</div>
+								  		<div class="form-group">
+								  			<label class="col-md-3 col-md-offset-1">* 有效性</label>
+								  			<div class="col-md-7">
+								  				<select id="yxx" name="validityid">
+									    				<option></option>
+									    			</select>
+								  			</div>
+								  		</div>
+								  		<div class="form-group">
+								  			<label class="col-md-3 col-md-offset-1">* 客户分类</label>
+								  			<div class="col-md-7">
+								  				<select id="khfl" name="ctypeid">
+								    				<option></option>
+								    			</select>
+								  			</div>
+								  		</div>
+								  		<div class="form-group">
+								  			<label class="col-md-3 col-md-offset-1">* 跟进内容</label>
+								  			<div class="col-md-7">
+								  				<textarea name="fcontent" class="form-control" rows="3"  cols="10" required="required"></textarea>
+								  			</div>
+								  		</div>
+								  		<div class="form-group">
+								  			<label class="col-md-3 col-md-offset-1">* 下次跟进</label>
+								  			<div class="col-md-7">
+								  				<input name="xcgjsj" id="xcgj" class="laydate-icon" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})" required="required">
+								  			</div>
+								  		</div>
+								  		<div class="form-group">
+								  			<label class="col-md-3 col-md-offset-1">* 提醒内容</label>
+								  			<div class="col-md-7">
+								  				<input name="fremind" class="input-sm form-control" type="text" required="required"/>
+								  			</div>
+								  		</div>
+							  			<div class="col-md-5 col-md-offset-5">
+							  				<input type="button" class="btn btn-primary" onclick="followupsubmits()" value="确定" />  
+								    		<button class="btn btn-default" type="reset">重置</button>
+							  			</div>
+								  	</form>
+								  </div>
+								</div>
+							</div>
+							<div class="col-md-12">
+								<div class="panel panel-primary">
+								  <div class="panel-heading">
+								    <h3 class="panel-title">跟进历史</h3>
+								  </div>
+								  <div class="panel-body">
+								    <table class="table table-bordered" id="followhistory">
+								    	<thead>
+									    	<tr>
+									    		<th width="60px">编号</th>
+									    		<th>跟进内容</th>
+									    		<th>提醒内容</th>
+									    		<th>跟进人</th>
+									    		<th>跟进时间</th>
+									    		<th>下次跟进时间</th>
+									    	</tr>
+								    	</thead>
+								    	<tbody>
+								    	</tbody>
+								    </table>
+								  </div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+				</div>
+			</div>
+		</div>
+	</div><!-- 客户跟进框结束  -->
+	
+	<!-- 预约客户模态框 -->
+	<div class="modal" id="orderModal">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 class="modal-title">预约客户</h4>
+				</div>
+				<div class="modal-body">
+				    <ul class="nav nav-pills">
+				      <li class="active">
+				        <a href="#tab1" data-toggle="tab">预约</a>
+				      </li>
+				      <li><a href="#tab2" data-toggle="tab">预约记录</a></li>
+				    </ul>
+				     <div class="tab-content">
+					    <div class="tab-pane fade active" id="tab1">
+					      <form id="orderform" enctype="application/x-www-form-urlencoded" class="form-horizontal">
+					      	<input type="hidden" name="cid">
+					      	<div style="height: 20px;"></div>
+					      	<div class="form-group">
+					      		<label class="col-md-3 col-md-offset-2">* 预约目的：</label>
+					      		<div class="col-md-7">
+					      			<select name="bintent">
+					      				<option>请选择</option>
+					      			</select>
+					      		</div>
+					      	</div>
+					      	<div class="form-group">
+					      		<label class="col-md-3 col-md-offset-2">* 接待校区：</label>
+					      		<div class="col-md-7">
+					      			<select  name="baddress">
+					      				<option>请选择</option>
+					      			</select>
+					      		</div>
+					      	</div>
+					      	<div class="form-group">
+					      		<label class="col-md-3 col-md-offset-2">* 接待老师：</label>
+					      		<div class="col-md-7">
+					      			<select name="bteacher">
+					      				<option>请选择</option>
+					      			</select>
+					      		</div>
+					      	</div>
+					      	<div class="form-group">
+					      		<label class="col-md-3 col-md-offset-2">* 拟到达时间：</label>
+					      		<div class="col-md-7">
+					      			<input type="text" name="barritime" class="laydate-icon" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})" required="required">
+					      		</div>
+					      	</div>
+					      	<div class="form-group">
+					      		<label class="col-md-3 col-md-offset-2">* 沟通内容：</label>
+					      		<div class="col-md-5">
+					      			<textarea class="form-control" name="bcontents"></textarea>
+					      		</div>
+					      	</div>
+					      	<div class="form-group">
+					      		<div class=" col-md-offset-4">
+					      			<button type="button" class="btn btn-primary" onclick="ordersubmits()">预约</button> 
+									<button type="button" class="btn btn-default">重置</button>
+					      		</div>
+					      	</div>
+					      </form>
+					      <!-- <div id="ordermessage"></div> -->
+					    </div>
+					    <div class="tab-pane fade" id="tab2">
+					      <div style="height: 20px;"></div>
+					      <table class="table table-bordered" id="ordertable">
+					      	<thead>
+						      	<tr>
+						      		<th>编号</th>
+						      		<th>预约目的</th>
+						      		<th>接待校区</th>
+						      		<th>接待老师</th>
+						      		<th>沟通内容</th>
+						      		<th>到访状态</th>
+						      		<th>预约时间</th>
+						      		<th>预约人</th>
+						      		<th>拟到达时间</th>
+						      		<th>实际到达时间</th>
+						      	</tr>
+					      	</thead>
+					      	<tbody></tbody>
+					      </table>
+					    </div>
+					 </div>
+					 <div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div><!-- 预约客户模态框结束 -->
 	<!-- Bootstrap core JavaScript  ================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
 	<script src="<%=basePath%>js/bootstrap.js"></script>
@@ -366,8 +607,7 @@
 	<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.0/bootstrap-table.min.js"></script>
 	<!-- Latest compiled and minified Locales -->
 	<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.0/locale/bootstrap-table-zh-CN.min.js"></script>
-	<script type="text/javascript" src="<%=basePath%>myjs/allocation.js"></script>
-
+	<script src="<%=basePath %>myjs/allocation.js"></script>
 </body>
 </html>
 	

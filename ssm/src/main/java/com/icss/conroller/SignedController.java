@@ -631,6 +631,17 @@ public class SignedController {
 	public @ResponseBody String customername(HttpServletRequest request ,HttpSession session){
 		return JSONArray.fromObject(signedBusiness.signedinfoIsMinebycustomername(request, session)).toString();
 	}
+	
+	/***
+	 * 总经理模糊查询某些数据
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("selectsomrbyall.do")
+	public @ResponseBody String selectsomrbyall(HttpServletRequest request){
+		return JSONArray.fromObject(signedBusiness.selectsomrbyall(request)).toString();
+	}
+	
 	/********************************************************************************************************/
 	
 	

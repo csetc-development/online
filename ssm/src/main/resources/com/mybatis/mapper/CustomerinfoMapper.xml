@@ -39,9 +39,31 @@
     <result column="nowcoursepeople" property="nowcoursepeople" jdbcType="VARCHAR" />
     <result column="oldcoursepeople" property="oldcoursepeople" jdbcType="VARCHAR" />
   </resultMap>
+  <resultMap id="followupMap" type="com.icss.bean.Followup" >
+    <id column="fid" property="fid" jdbcType="INTEGER" />
+    <result column="fcontent" property="fcontent" jdbcType="VARCHAR" />
+    <result column="fremind" property="fremind" jdbcType="VARCHAR" />
+    <result column="fpeople" property="fpeople" jdbcType="VARCHAR" />
+    <result column="ftime" property="ftime" jdbcType="TIMESTAMP" />
+    <result column="fnexttime" property="fnexttime" jdbcType="TIMESTAMP" />
+    <result column="cid" property="cid" jdbcType="INTEGER" />
+  </resultMap>
   <resultMap type="com.icss.bean.Customertype" id="CtypeMap">
   	<id column="ctypeid" property="ctypeid" jdbcType="INTEGER"/>
   	<result column="ctypename" property="ctypename" jdbcType="VARCHAR"/>
+  </resultMap>
+  <resultMap id="BespeakMap" type="com.icss.bean.Bespeak" >
+    <id column="bid" property="bid" jdbcType="INTEGER" />
+    <result column="bintent" property="bintent" jdbcType="VARCHAR" />
+    <result column="baddress" property="baddress" jdbcType="VARCHAR" />
+    <result column="bteacher" property="bteacher" jdbcType="VARCHAR" />
+    <result column="bcontents" property="bcontents" jdbcType="VARCHAR" />
+    <result column="bvisit" property="bvisit" jdbcType="INTEGER" />
+    <result column="bappotime" property="bappotime" jdbcType="TIMESTAMP" />
+    <result column="barritime" property="barritime" jdbcType="TIMESTAMP" />
+    <result column="bactualtime" property="bactualtime" jdbcType="TIMESTAMP" />
+    <result column="bperson" property="bperson" jdbcType="VARCHAR" />
+    <result column="cid" property="cid" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
     cid, name, sex, tel, email, school, major, education, market, collectiontime, source, 
@@ -632,6 +654,16 @@
   	SELECT icname ctypename FROM intentionjob 
   </select>
   
+  <!-- 预约目的 -->
+   <select id="purpose" resultMap="CtypeMap">
+   		SELECT purposename ctypename FROM purpose
+   </select>
+   
+   <!-- 接待校区 -->
+    <select id="receptionaddress" resultMap="CtypeMap">
+   		SELECT receptionname ctypename FROM receptionaddress
+   </select>
+  
   <!-- 多条件查询简历信息 -->
   <select id="Screen" resultMap="BaseResultMap" parameterType="com.icss.bean.Customerinfo">
   	SELECT  <include refid="Base_Column_List" /> FROM customerinfo WHERE 1=1
@@ -662,6 +694,47 @@
       <if test="remark != null and remark !=''" >
        ORDER BY #{remark,jdbcType=VARCHAR} DESC
       </if>
-  </select>
+  </select> <!-- 多条件查询简历信息 结束-->
   
+   <!-- 跟进客户历史信息  -->
+   <select id="followuphistory" resultMap="followupMap" parameterType="java.lang.Integer">
+   		SELECT fid, fcontent, fremind, fpeople, ftime, fnexttime, cid FROM followup WHERE cid=#{cid,jdbcType=INTEGER}
+   </select>
+   
+   <!-- 有效性的 -->
+   <select id="validity" parameterType="java.lang.Integer" resultMap="CtypeMap">
+   	SELECT v.validityid ctypeid, validityname ctypename FROM validity v LEFT JOIN (
+		SELECT * FROM customerinfo WHERE cid=#{cid,jdbcType=INTEGER} )c 
+		ON c.validityid=v.validityid ORDER BY name DESC
+   </select>
+   <!-- 客户分类的 -->
+   <select id="customertype" parameterType="java.lang.Integer" resultMap="CtypeMap">
+   	SELECT v.ctypeid,ctypename FROM customertype v LEFT JOIN (
+		SELECT * FROM customerinfo WHERE cid=#{cid,jdbcType=INTEGER} )c 
+		ON c.ctypeid=v.ctypeid ORDER BY name DESC
+   </select>
+   <!-- 客户新增跟进记录 -->
+   <insert id="followupsubmit" parameterType="com.icss.bean.Followup">
+   	insert into followup (fcontent, fremind, fpeople, ftime, fnexttime,cid)
+    values ( #{fcontent,jdbcType=VARCHAR}, #{fremind,jdbcType=VARCHAR}, 
+      #{fpeople,jdbcType=VARCHAR}, #{ftime,jdbcType=TIMESTAMP}, #{fnexttime,jdbcType=TIMESTAMP}, 
+      #{cid,jdbcType=INTEGER})
+   </insert>
+   <!-- 新增一条预约记录 -->
+   <insert id="ordersubmits" parameterType="com.icss.bean.Bespeak">
+   	insert into bespeak ( bintent, baddress, bteacher, bcontents, bvisit, 
+      bappotime, barritime, bactualtime, bperson, cid)
+    values (#{bintent,jdbcType=VARCHAR}, #{baddress,jdbcType=VARCHAR}, 
+      #{bteacher,jdbcType=VARCHAR}, #{bcontents,jdbcType=VARCHAR}, #{bvisit,jdbcType=INTEGER}, 
+      #{bappotime,jdbcType=TIMESTAMP}, #{barritime,jdbcType=TIMESTAMP}, #{bactualtime,jdbcType=TIMESTAMP}, 
+      #{bperson,jdbcType=VARCHAR},#{cid,jdbcType=INTEGER})
+   </insert>
+   <!-- 预约记录   -->
+   <!-- <select id="orderrecord" parameterType="java.lang.Integer" resultMap="BespeakMap">
+   	 select bid, bintent, baddress, bteacher, bcontents, bvisit, bappotime, 
+   	 barritime, bactualtime, bperson, cid
+    from bespeak
+    where cid = #{cid,jdbcType=INTEGER}
+   </select> -->
+   
 </mapper>
