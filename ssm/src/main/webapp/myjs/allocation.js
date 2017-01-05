@@ -1,9 +1,7 @@
 $(document).ready(function(){
-	alert(12);
 	initHideColum();
 	initselect();
 	
-	$('#datetimepicker').datetimepicker({format: 'yyyy-mm-dd hh:ii'});
 	
 	$(".formcontrols select,#startime,#endtime").change(function(){
 		$.ajax({
@@ -42,7 +40,6 @@ $(document).ready(function(){
 
 
 function initHideColum(){
-	alert(1);
 	$("table").bootstrapTable("hideColumn", "workexperience");
 	$("table").bootstrapTable("hideColumn", "birthdate");
 	$("table").bootstrapTable("hideColumn", "residence");
@@ -61,7 +58,6 @@ function initHideColum(){
 	$("table").bootstrapTable("hideColumn", "lastfollowtime");
 	$("table").bootstrapTable("hideColumn", "lastfollowup");
 	$("table").bootstrapTable("hideColumn", "oldcoursepeople");
-	alert();
 }
 
 function initselect(){
@@ -416,7 +412,7 @@ function order(){
 			}
 		});
 		//预约记录数据
-	/*	$.ajax({
+		$.ajax({
 			type:"POST",
 			url:"customer/orderrecord.do",
 			dataType:"json",
@@ -435,13 +431,17 @@ function order(){
 						htmlContext +="<td>"+data[obj].bcontents+"</td>";
 						htmlContext +="<td>"+visit+"</td>";
 						htmlContext +="<td>"+data[obj].bappotime+"</td>";
+						htmlContext +="<td>"+data[obj].bperson+"</td>";
 						htmlContext +="<td>"+data[obj].barritime+"</td>";
 						htmlContext +="<td>"+data[obj].bactualtime+"</td></tr>";
 					}
 					$("#ordertable").find("tbody").html(htmlContext);
+				}else{
+					$("#ordermessage").html("");
+					$("#ordertable").find("tbody").html("");
 				}
 			}
-		});*/
+		});
 		
 		$("#orderModal").modal("show");
 	}
@@ -459,13 +459,12 @@ function ordersubmits(){
 		success:function(data){
 			if(data!=1){
 				alert("预约失败");
-			}eles{
+			}else{
 				$("#orderModal").modal("hide");
 			}
 		}
 	})
 }
-
 
 //申请试听
 function audition(){

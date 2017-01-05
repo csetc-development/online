@@ -276,9 +276,11 @@ public class CustomerinfoController {
 	 * @param request
 	 * @return
 	 */
-	/*@RequestMapping("orderrecord.do")
+	@RequestMapping("orderrecord.do")
 	public @ResponseBody String orderrecord(HttpServletRequest request){
-		return JSONArray.fromObject(customerinfoBusiness.orderrecord(request)).toString();
-	}*/
+		JsonConfig jsonConfig = new JsonConfig();
+		jsonConfig.registerJsonValueProcessor(Date.class,new JsonDateValueProcessor("yyyy-MM-dd HH:mm:ss"));
+		return JSONArray.fromObject(customerinfoBusiness.orderrecord(request),jsonConfig).toString();
+	}
 	
 }

@@ -21,7 +21,7 @@
 <link href="<%=basePath%>css/bootstrap.min.css" rel="stylesheet">
 <!-- page CSS -->
 <link href="<%=basePath%>css/page.css" rel="stylesheet">
-<%-- <link href="<%=basePath %>css/datePicker.css" rel="stylesheet" type="text/css" /> --%>
+<link href="<%=basePath %>css/datePicker.css" rel="stylesheet" type="text/css" />
 <!-- Custom styles for this template -->
 <link href="<%=basePath%>css/dashboard.css" rel="stylesheet">
 
@@ -518,7 +518,7 @@
 				      <li><a href="#tab2" data-toggle="tab">预约记录</a></li>
 				    </ul>
 				     <div class="tab-content">
-					    <div class="tab-pane fade active" id="tab1">
+					    <div class="tab-pane fade active in" id="tab1">
 					      <form id="orderform" enctype="application/x-www-form-urlencoded" class="form-horizontal">
 					      	<input type="hidden" name="cid">
 					      	<div style="height: 20px;"></div>
@@ -565,16 +565,16 @@
 					      		</div>
 					      	</div>
 					      </form>
-					      <!-- <div id="ordermessage"></div> -->
+					      <div id="ordermessage"></div>
 					    </div>
 					    <div class="tab-pane fade" id="tab2">
 					      <div style="height: 20px;"></div>
-					      <table class="table table-bordered" id="ordertable">
+					      <table class="table table-bordered" id="ordertable" >
 					      	<thead>
 						      	<tr>
-						      		<th>编号</th>
-						      		<th>预约目的</th>
-						      		<th>接待校区</th>
+						      		<th width="60px">编号</th>
+						      		<th width="80px">预约目的</th>
+						      		<th width="80px">接待校区</th>
 						      		<th>接待老师</th>
 						      		<th>沟通内容</th>
 						      		<th>到访状态</th>
@@ -595,6 +595,7 @@
 			</div>
 		</div>
 	</div><!-- 预约客户模态框结束 -->
+	
 	<!-- Bootstrap core JavaScript  ================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
 	<script src="<%=basePath%>js/bootstrap.js"></script>
@@ -607,7 +608,7 @@
 	<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.0/bootstrap-table.min.js"></script>
 	<!-- Latest compiled and minified Locales -->
 	<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.0/locale/bootstrap-table-zh-CN.min.js"></script>
-	<script src="<%=basePath %>myjs/allocation.js"></script>
+	<script type="text/javascript" src="<%=basePath %>myjs/allocation.js"></script>
 </body>
 </html>
 	

@@ -723,18 +723,18 @@
    <!-- 新增一条预约记录 -->
    <insert id="ordersubmits" parameterType="com.icss.bean.Bespeak">
    	insert into bespeak ( bintent, baddress, bteacher, bcontents, bvisit, 
-      bappotime, barritime, bactualtime, bperson, cid)
+      bappotime, barritime, bperson, cid)
     values (#{bintent,jdbcType=VARCHAR}, #{baddress,jdbcType=VARCHAR}, 
       #{bteacher,jdbcType=VARCHAR}, #{bcontents,jdbcType=VARCHAR}, #{bvisit,jdbcType=INTEGER}, 
-      #{bappotime,jdbcType=TIMESTAMP}, #{barritime,jdbcType=TIMESTAMP}, #{bactualtime,jdbcType=TIMESTAMP}, 
+      #{bappotime,jdbcType=TIMESTAMP}, #{barritime,jdbcType=TIMESTAMP}, 
       #{bperson,jdbcType=VARCHAR},#{cid,jdbcType=INTEGER})
    </insert>
    <!-- 预约记录   -->
-   <!-- <select id="orderrecord" parameterType="java.lang.Integer" resultMap="BespeakMap">
+   <select id="orderrecord" parameterType="java.lang.Integer" resultMap="BespeakMap">
    	 select bid, bintent, baddress, bteacher, bcontents, bvisit, bappotime, 
    	 barritime, bactualtime, bperson, cid
     from bespeak
     where cid = #{cid,jdbcType=INTEGER}
-   </select> -->
+   </select>
    
 </mapper>
